@@ -1,0 +1,104 @@
+{
+  "Tables": [
+    {
+      "titre": "DICO ESPECES CULTIVEES",
+      "id": 0,
+      "champs": ["Especes cultivées Libellé", "Sous groupe Libellé"]
+    },
+    {
+      "titre": "DICO ESPECE SEMEE",
+      "id": 1,
+      "champs": ["Especes semées Libellé"]
+    },
+    {
+      "titre": "DICO PARCELLES",
+      "id": 2,
+      "champs": ["Type parcelle Libellé", "Description Parcelle"]
+    },
+    {
+      "titre": "DICO SITE OAB DESCRIPTION",
+      "id": 3,
+      "champs": ["Description site OAB", "Groupe"]
+    },
+    {
+      "titre": "DICO TYPE TRAITEMENT",
+      "id": 4,
+      "champs": ["NOM TRAITEMENT", "TYPE TRAITEMENT"]
+    },
+    {
+      "titre": "Details parcelle",
+      "id": 5,
+      "champs": ["Numero departement", "Departement", "Region"]
+    },
+    {
+      "titre": "Observations",
+      "id": 6,
+      "champs": [
+        "Tempéarature",
+        "Date",
+        "Fleurs Bordure",
+        "Culture en place",
+        "Date Pluie",
+        "Date Gelée",
+        "Sky Cover Libellé",
+        "Wind Libellé",
+        "Rain Libellé",
+        "Humidité Libellé",
+        "GroupName",
+        "Abundance",
+        "AB_Adultes_VDT"
+      ]
+    },
+    {
+      "titre": "Parcelles description",
+      "id": 7,
+      "champs": [
+        "Date Année Parcelle",
+        "Paysage Intensif",
+        "EC_CL",
+        "InterCulture",
+        "Annee Plantation",
+        "PrairieTemporaire",
+        "Age Prairie",
+        "Trvail Sol",
+        "Date Semis",
+        "Interrang",
+        "Annee Conversion"
+      ]
+    },
+    {
+      "titre": "PLANNING",
+      "id": 8,
+      "champs": ["Begin", "End", "Libellé", "Période", "Date Estimée"]
+    },
+    {
+      "titre": "Sites OAB",
+      "id": 9,
+      "champs": ["Texture Sol", "Couleur Sol", "PH Sol", "Distance Arbre"]
+    },
+    {
+      "titre": "Survey",
+      "id": 10,
+      "champs": [
+        "Frequence",
+        "Year",
+        "Grass Height",
+        "SurveyDate",
+        "Start Hour",
+        "End Hour",
+        "Observation Time"
+      ]
+    },
+    {
+      "titre": "Traitement Description",
+      "id": 11,
+      "champs": [
+        "Nombre Passage",
+        "Quantité",
+        "Enplein",
+        "Produit",
+        "Frequence"
+      ]
+    }
+  ]
+}
