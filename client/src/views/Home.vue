@@ -2,7 +2,7 @@
   <div class="home mt-12">
     <v-container>
       <v-form>
-        <v-row justify="center" align="center">
+        <v-row align="center">
           <v-col cols="11" md="10" lg="7" xl="4">
             <v-row>
               <v-col cols="11" md="10" lg="6" xl="6">
@@ -23,7 +23,7 @@
           >
         </div>
 
-        <v-row justify="center" align="center">
+        <v-row  align="center">
           <v-col
             v-for="(table, i) in tablesData"
             :key="i"
@@ -44,7 +44,6 @@
 
             <v-select
               class="select-dim"
-              hide-selected
               :items="computedDims"
               @change="changeValueDim($event, i)"
               :value="table.value"
@@ -72,11 +71,10 @@
                 :key="j"
               >
                 <v-select
-                  :value="table"
-                  hide-selected
                   :items="computedLevels[i]"
-                  label="Niveau"
                   @change="changeValueLevel($event, i, j)"
+                  :value="table"
+                  label="Niveau"
                 ></v-select>
                 <v-icon @click="deleteLevel(i, j)"
                   >mdi-trash-can-outline</v-icon
@@ -110,7 +108,8 @@ export default {
   data() {
     return {
       rawData: donnee.Tables,
-      tablesData: []
+      tablesData: [],
+      forceRecomputeCounter: 0
     };
   },
   methods: {
@@ -154,6 +153,7 @@ export default {
     },
     changeValueLevel(value, i, j) {
       this.tablesData[i].level[j] = value;
+      this.forceRecomputeCounter++;
     },
     deleteLevel(indexDim, indexLevel) {
       this.tablesData[indexDim].level.splice(indexLevel, 1);
@@ -180,9 +180,15 @@ export default {
       });
     },
     /*levelSelected() {
-      return this.tablesData.level.map(itemTable => {
-        return itemTable.value;
-      });
+      var tablesLevelSelected = [];
+      for (var i = 0; i < this.tablesData.length; i++) {
+        var level = [];
+        this.tablesData[i].level.map(item => {
+          level.push(item);
+        });
+        tablesLevelSelected.push(level);
+      }
+      return tablesLevelSelected;
     },*/
     computedDims() {
       return this.tableTitre.map(item => {
@@ -193,6 +199,7 @@ export default {
       });
     },
     computedLevels() {
+      this.forceRecomputeCounter;
       var tablesLevel = [];
 
       for (var i = 0; i < this.tablesData.length; i++) {
