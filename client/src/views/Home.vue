@@ -18,7 +18,9 @@
         </v-row>
 
         <div justify="center" align="center" class="mb-5">
-          <v-btn class="mr-5" @click="addNewDim" color="primary">Ajouter une dimension</v-btn>
+          <v-btn class="mr-5" @click="addNewDim" color="primary" small
+            >Ajouter une dimension</v-btn
+          >
         </div>
 
         <v-row justify="center" align="center">
@@ -31,7 +33,11 @@
             xl="7"
             class="card ma-3"
           >
-            <v-card class="d-flex justify-space-between mb-3" color="rgb(243, 243, 243)" outlined>
+            <v-card
+              class="d-flex justify-space-between mb-3"
+              color="rgb(243, 243, 243)"
+              outlined
+            >
               <h2>dimension {{ i }}</h2>
               <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
             </v-card>
@@ -39,14 +45,14 @@
             <v-select
               class="select-dim"
               hide-selected
-              :items="computedItems"
+              :items="computedDims"
               @change="changeValueDim($event, i)"
               :value="table.value"
               label="Dimension"
             ></v-select>
             <v-row>
               <v-btn
-                small
+                x-small
                 color="light-blue accent-3"
                 class="ma-2 white--text"
                 @click="addLevel(i)"
@@ -60,17 +66,21 @@
               <v-col
                 cols="11"
                 md="10"
-                lg="7"
+                lg="4"
                 xl="4"
                 v-for="(table, j) in tablesData[i].level"
                 :key="j"
               >
                 <v-select
-                  :items="tableChamp"
+                  :value="table"
+                  hide-selected
+                  :items="computedLevels[i]"
                   label="Niveau"
                   @change="changeValueLevel($event, i, j)"
                 ></v-select>
-                <v-icon @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                <v-icon @click="deleteLevel(i, j)"
+                  >mdi-trash-can-outline</v-icon
+                >
               </v-col>
             </v-row>
           </v-col>
@@ -155,12 +165,26 @@ export default {
         return itemY.titre;
       });
     },
+    tableLevel() {
+      var levels = [];
+      this.rawData.map(item =>
+        item.champs.map(level => {
+          levels.push(level);
+        })
+      );
+      return levels;
+    },
     dimSelected() {
       return this.tablesData.map(itemTable => {
         return itemTable.value;
       });
     },
-    computedItems() {
+    /*levelSelected() {
+      return this.tablesData.level.map(itemTable => {
+        return itemTable.value;
+      });
+    },*/
+    computedDims() {
       return this.tableTitre.map(item => {
         return {
           text: item,
@@ -168,10 +192,23 @@ export default {
         };
       });
     },
-    tableChamp() {
-      return this.rawData.map(itemY => {
-        return itemY.champs;
-      });
+    computedLevels() {
+      var tablesLevel = [];
+
+      for (var i = 0; i < this.tablesData.length; i++) {
+        var level = [];
+        this.tableLevel.map(item => {
+          level.push({
+            text: item,
+            disabled: this.tablesData[i].level.includes(item)
+          });
+        });
+
+        tablesLevel.push(level);
+      }
+
+      console.log(tablesLevel);
+      return tablesLevel;
     }
   }
 };
