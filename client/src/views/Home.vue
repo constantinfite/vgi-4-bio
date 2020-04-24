@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="main">
-    <v-row>
-      <v-col cols="11" md="6" lg="6" xl="6">
+    <v-row justify="center">
+      <v-col cols="11" md="6" lg="5" xl="5" class="colonne">
         <v-form>
           <v-row align="center" justify="start">
             <v-col cols="11" md="12" lg="12" xl="12">
@@ -14,17 +14,12 @@
                 </v-col>
               </v-row>
 
-              <v-text-field
-                v-model="mesure"
-                label="Nom de la mesure"
-              ></v-text-field>
+              <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
             </v-col>
           </v-row>
 
           <div justify="center" align="center" class="mb-5">
-            <v-btn class="mr-5" @click="addNewDim" color="primary" small
-              >Ajouter une dimension</v-btn
-            >
+            <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
           </div>
 
           <v-row align="center">
@@ -37,15 +32,9 @@
               xl="12"
               class="card ma-3"
             >
-              <v-card
-                class="d-flex justify-space-between mb-3"
-                color="rgb(243, 243, 243)"
-                outlined
-              >
+              <v-card class="d-flex justify-space-between mb-3" color="rgb(243, 243, 243)" outlined>
                 <h2>dimension {{ i }}</h2>
-                <v-icon large @click="deleteDim(i)"
-                  >mdi-trash-can-outline</v-icon
-                >
+                <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
               </v-card>
 
               <v-select
@@ -76,15 +65,16 @@
                   v-for="(table, j) in tablesData[i].level"
                   :key="j"
                 >
-                  <v-select
-                    :items="computedLevels[i]"
-                    @change="changeValueLevel($event, i, j)"
-                    :value="table"
-                    label="Niveau"
-                  ></v-select>
-                  <v-icon @click="deleteLevel(i, j)"
-                    >mdi-trash-can-outline</v-icon
-                  >
+                  <v-card flat class="d-flex justify-space-between">
+                    <v-select
+                      class="mx-3"
+                      :items="computedLevels[i]"
+                      @change="changeValueLevel($event, i, j)"
+                      :value="table"
+                      label="Niveau"
+                    ></v-select>
+                    <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                  </v-card>
                 </v-col>
               </v-row>
             </v-col>
@@ -245,8 +235,9 @@ export default {
 }
 
 .main {
-  
   margin-left: 0;
   margin-right: 0;
+}
+.colonne {
 }
 </style>

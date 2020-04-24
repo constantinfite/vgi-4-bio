@@ -2,18 +2,120 @@
   "Tables": [
     {
       "titre": "DICO ESPECES CULTIVEES",
-      "id": 0,
-      "champs": ["Especes cultivées Libellé", "Sous groupe Libellé"]
+      "champs": [
+        "Especes cultivées Libellé",
+        "Sous groupe Libellé"
+      ]
     },
     {
       "titre": "DICO ESPECE SEMEE",
-      "id": 1,
-      "champs": ["Especes semées Libellé"]
+      "champs": [
+        "Especes semées Libellé"
+      ]
     },
     {
       "titre": "DICO PARCELLES",
-      "id": 2,
-      "champs": ["Type parcelle Libellé", "Description Parcelle"]
+      "champs": [
+        "Type parcelle Libellé",
+        "Description Parcelle"
+      ]
+    },
+    {
+      "titre": "DICO SITE OAB DESCRIPTION",
+      "champs": [
+        "Description site OAB",
+        "Groupe"
+      ]
+    },
+    {
+      "titre": "DICO TYPE TRAITEMENT",
+      "champs": [
+        "NOM TRAITEMENT",
+        "TYPE TRAITEMENT"
+      ]
+    },
+    {
+      "titre": "Details parcelle",
+      "champs": [
+        "Numero departement",
+        "Departement",
+        "Region"
+      ]
+    },
+    {
+      "titre": "Observations",
+      "champs": [
+        "Tempéarature",
+        "Date",
+        "Fleurs Bordure",
+        "Culture en place",
+        "Date Pluie",
+        "Date Gelée",
+        "Sky Cover Libellé",
+        "Wind Libellé",
+        "Rain Libellé",
+        "Humidité Libellé",
+        "GroupName",
+        "Abundance",
+        "AB_Adultes_VDT"
+      ]
+    },
+    {
+      "titre": "Parcelles description",
+      "champs": [
+        "Date Année Parcelle",
+        "Paysage Intensif",
+        "EC_CL",
+        "InterCulture",
+        "Annee Plantation",
+        "PrairieTemporaire",
+        "Age Prairie",
+        "Trvail Sol",
+        "Date Semis",
+        "Interrang",
+        "Annee Conversion"
+      ]
+    },
+    {
+      "titre": "PLANNING",
+      "champs": [
+        "Begin",
+        "End",
+        "Libellé",
+        "Période",
+        "Date Estimée"
+      ]
+    },
+    {
+      "titre": "Sites OAB",
+      "champs": [
+        "Texture Sol",
+        "Couleur Sol",
+        "PH Sol",
+        "Distance Arbre"
+      ]
+    },
+    {
+      "titre": "Survey",
+      "champs": [
+        "Frequence",
+        "Year",
+        "Grass Height",
+        "SurveyDate",
+        "Start Hour",
+        "End Hour",
+        "Observation Time"
+      ]
+    },
+    {
+      "titre": "Traitement Description",
+      "champs": [
+        "Nombre Passage",
+        "Quantité",
+        "Enplein",
+        "Produit",
+        "Frequence"
+      ]
     }
   ]
 }

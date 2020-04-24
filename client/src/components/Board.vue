@@ -11,7 +11,7 @@
             md="12"
             lg="3"
             xl="3"
-            class="table withoutpad"
+            class="table"
           >
             <p>{{ data.value }}</p>
             <v-row>
@@ -58,11 +58,11 @@ export default {
 }
 .table {
   background-color: rgb(206, 206, 206);
+  border: solid;
 }
-.withoutpad{
-    padding:0 0;
+.withoutpad {
 }
-.level{
-   background-color: rgb(12, 117, 238); 
+.level {
+  border: solid;
 }
 </style>

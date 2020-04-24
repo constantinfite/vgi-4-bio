@@ -21,15 +21,6 @@
           @click="$vuetify.goTo(bouton.tag, options)"
           >{{ bouton.text }}</v-btn
         >
-
-        <v-btn
-          rounded
-          elevation="1"
-          color="primary"
-          class="ml-3 font-weight-bold bouton-header"
-          @click="$vuetify.goTo('#contact', options)"
-          >Contact</v-btn
-        >
       </div>
       <v-app-bar-nav-icon class="d-md-none ml-8" @click="drawer = !drawer" />
     </v-app-bar>
