@@ -24,24 +24,6 @@
       </div>
       <v-app-bar-nav-icon class="d-md-none ml-8" @click="drawer = !drawer" />
     </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer" app class="indigo" right>
-      <v-list>
-        <v-list-item v-for="link in links" :key="link.text">
-          <v-btn
-            class="white--text"
-            text
-            @click="navigationPop(link.id, $vuetify)"
-            >{{ link.text }}</v-btn
-          >
-          <!--
-          <v-list-item-icon>
-            <v-icon class="white--text">{{ link.icon }}</v-icon>
-          </v-list-item-icon>
-          //-->
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
   </nav>
 </template>
 

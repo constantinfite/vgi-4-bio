@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="main">
     <v-row justify="center">
-      <v-col cols="11" md="6" lg="5" xl="5" class="colonne">
+      <v-col lg="6" xl="5" class="colonne">
         <v-form>
           <v-row align="center" justify="start">
             <v-col cols="11" md="12" lg="12" xl="12">
@@ -105,7 +105,7 @@
           </v-row>
         </v-form>
       </v-col>
-      <v-col cols="10" md="6" lg="6" xl="6">
+      <v-col lg="6" xl="6">
         <Board :datas="tablesData" :mesure="mesure" />
       </v-col>
     </v-row>
