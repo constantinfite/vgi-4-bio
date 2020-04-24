@@ -14,12 +14,17 @@
                 </v-col>
               </v-row>
 
-              <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
+              <v-text-field
+                v-model="mesure"
+                label="Nom de la mesure"
+              ></v-text-field>
             </v-col>
           </v-row>
 
           <div justify="center" align="center" class="mb-5">
-            <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
+            <v-btn class="mr-5" @click="addNewDim" color="primary" small
+              >Ajouter une dimension</v-btn
+            >
           </div>
 
           <v-row align="center">
@@ -32,9 +37,15 @@
               xl="12"
               class="card ma-3"
             >
-              <v-card class="d-flex justify-space-between mb-3" color="rgb(243, 243, 243)" outlined>
+              <v-card
+                class="d-flex justify-space-between mb-3"
+                color="rgb(243, 243, 243)"
+                outlined
+              >
                 <h2>dimension {{ i }}</h2>
-                <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                <v-icon large @click="deleteDim(i)"
+                  >mdi-trash-can-outline</v-icon
+                >
               </v-card>
 
               <v-select
@@ -73,7 +84,9 @@
                       :value="table"
                       label="Niveau"
                     ></v-select>
-                    <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                    <v-icon class="mr-3" @click="deleteLevel(i, j)"
+                      >mdi-trash-can-outline</v-icon
+                    >
                   </v-card>
                 </v-col>
               </v-row>
