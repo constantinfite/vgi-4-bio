@@ -97,7 +97,7 @@
               small
               color="light-blue accent-3"
               class="ma-2 white--text"
-              @click="myDataToXML(tablesData)"
+              @click="myDataToXML(tablesData); myDataToSQL(tablesData);"
             >
               Envoyer
               <v-icon right dark>mdi-send</v-icon>
@@ -165,11 +165,126 @@ export default {
 
         var fd = new FormData();
         
-        fd.append("upl", blob, this.name + "_" + this.firstname + ".xml");
+        fd.append("xml", blob, this.name + "_" + this.firstname + ".xml");
         console.log(fd)
 
 
-        fetch('http://localhost:4000/api/test', {
+        fetch('http://localhost:4000/api/xml', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => console.log(response))
+        .catch(function(error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
+        })     
+      }
+      else{
+        console.log('auccune dimenssion ne sont écrite')
+      }
+    },
+
+    myDataToSQL(value1) {
+
+      if (value1.length > 0){
+
+        var Tables = ''
+        var linkTable =   `CREATE TABLE IF NOT EXISTS ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`+
+                          `\t${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} INTEGER,\n`
+        var allID = ''
+
+        for(var i = 0; i < value1.length; i++){
+          
+          Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`
+          Tables += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID SERIAL,\n`
+
+          for(var j = 0; j < value1[i].level.length; j++){
+
+            Tables += `\t${value1[i].level[j].toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} TEXT,\n`
+
+          }
+
+          Tables += `\tPRIMARY KEY (${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID)\n`
+          Tables += `);\n`
+
+          linkTable += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID INTEGER REFERENCES ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID),\n`
+
+          allID += `${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID,`
+
+        }
+
+        linkTable += `\tPRIMARY KEY (${allID.slice(0, -1)})\n`
+        linkTable += `);\n\n`
+
+        var file = Tables + linkTable
+
+        /*
+          // if we use value insertion we must replace the loop up for the one down
+          // we have to create a tab of the insertion values !!! we call it "insertTab"
+          
+          var insert = ''
+          var Tables = ''
+          var linkTable =   `CREATE TABLE IF NOT EXISTS ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`+
+                            `\t${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} INTEGER,\n`
+          var allID = ''
+          var allIDInsert = ''
+
+          for(var i = 0; i < value1.length; i++){
+
+            insert += `INSERT INTO ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}`
+            
+            Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`
+            Tables += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID SERIAL,\n`
+
+            for(var j = 0; j < value1[i].level.length; j++){
+
+              Tables += `\t${value1[i].level[j].toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} TEXT,\n`
+
+              insert += `${value1[i].level[j].toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')},`
+
+              
+
+            }
+
+            insert = insert.slice(0, -1) + `)  VALUES (`
+
+            for(var k = 0; k < (insertTab.length - 1); k++){
+
+              insert += `'$(insertTab[k]',`
+
+            }
+
+            insert = insert.slice(0, -1) + ');\n' 
+
+            allIDInsert += `(SELECT MAX(${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID) FROM ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}),`
+
+            Tables += `\tPRIMARY KEY (${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID)\n`
+            Tables += `);\n`
+
+            linkTable += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID INTEGER REFERENCES ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID),\n`
+
+            allID += `${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID,`
+
+          }
+
+          linkTable += `\tPRIMARY KEY (${allID.slice(0, -1)})\n`
+          linkTable += `);\n\n`
+
+          insert += `INSERT INTO ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')},${allID.slice(0, -1)}) VALUES (insertTab[insertTab.length - 1], ${allIDInsert.slice(0, -1)});\n\n`
+          
+
+          var file = Tables + linkTable + insert
+        
+        */
+
+        const blob = new Blob([file], { type: "text/sql" });
+
+        var fd = new FormData();
+        
+        fd.append("sql", blob, this.name + "_" + this.firstname + ".sql");
+        console.log(fd)
+
+
+        fetch('http://localhost:4000/api/sql', {
           method: "POST",
           body: fd
         })

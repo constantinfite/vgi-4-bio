@@ -11,8 +11,17 @@ app.use(cors());
 app.use(express.static("public")); // for serving the HTML file
 
 
-app.post("/api/test", upload.single("upl"), function (req, res) {
-  let uploadLocation = __dirname + "/uploads/" + req.file.originalname;
+app.post("/api/xml", upload.single("xml"), function (req, res) {
+  let uploadLocation = __dirname + "/uploads/xml/" + req.file.originalname;
+  fs.writeFileSync(uploadLocation, Buffer.from(new Uint8Array(req.file.buffer))); // write the blob to the server as a file
+  res.sendStatus(200); //send back that everything went ok
+  console.log(req.body);
+  console.log(req.file);
+  // do stuff with file
+});
+
+app.post("/api/sql", upload.single("sql"), function (req, res) {
+  let uploadLocation = __dirname + "/uploads/sql/" + req.file.originalname;
   fs.writeFileSync(uploadLocation, Buffer.from(new Uint8Array(req.file.buffer))); // write the blob to the server as a file
   res.sendStatus(200); //send back that everything went ok
   console.log(req.body);

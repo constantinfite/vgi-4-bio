@@ -3,6 +3,8 @@ client/node_modules
 node_modules
 /dist
 
+/uploads/XML/
+/uploads/SQL/
 
 # local env files
 .env.local
