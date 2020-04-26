@@ -134,12 +134,15 @@ export default {
   methods: {
     myDataToXML(value1) {
 
-      if (value1.length > 0){
+      if (value1.length > 0){   // if there is a dimesnsion create xml file else display a message in the console
+        
+        // create var file which is the file content
         var file =  `<?xml version="1.0"?>\n\n` +
                     `<Schema name="DWH">\n` +
                     `\t<Cube name="Cube" defaultMeasure="new">\n\n\n` +
                     `\t\t<Table name="${this.mesure}" />\n\n`
       
+        // the for loop allow the parcour of value in order to complete the var file 
         for(var i = 0; i < value1.length; i++){
           
           file += `\t\t\t<Dimension name="${value1[i].value}" foreignKey="${value1[i].value}_id">\n`
@@ -161,19 +164,23 @@ export default {
         file += `\t</Cube>\n`
         file += `</Schema>\n`
 
+        // create a Blob var which content the var file and arrage it as a xml file
         const blob = new Blob([file], { type: "text/xml" });
 
+        // create a var which will be send by the "fetch". 
+        // it create via the blob var the name we have from the form and the date, and with an id for the API
         var fd = new FormData();
+        fd.append("xml", blob, this.name + "_" + this.firstname + "_" +
+        (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + (new Date().getYear() + 1900) +
+        "_" +  new Date().getHours( )+ "-" +  new Date().getMinutes() + ".xml");
         
-        fd.append("xml", blob, this.name + "_" + this.firstname + ".xml");
-        console.log(fd)
-
-
         fetch('http://localhost:4000/api/xml', {
           method: "POST",
           body: fd
         })
+        // display in the console the responce of the fetch
         .then(response => console.log(response))
+        // if we have an error with the fetch it display it
         .catch(function(error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
         })     
@@ -185,8 +192,10 @@ export default {
 
     myDataToSQL(value1) {
 
-      if (value1.length > 0){
+      if (value1.length > 0){   // if there is a dimesnsion create sql file else display a message in the console
 
+        // create multiple var which will use to create the var file
+        // we create multiple var to use the for loop once and maque the read easy
         var Tables = ''
         var linkTable =   `CREATE TABLE IF NOT EXISTS ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`+
                           `\t${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} INTEGER,\n`
@@ -215,6 +224,7 @@ export default {
         linkTable += `\tPRIMARY KEY (${allID.slice(0, -1)})\n`
         linkTable += `);\n\n`
 
+        // create var file which is the file content
         var file = Tables + linkTable
 
         /*
@@ -276,19 +286,24 @@ export default {
         
         */
 
+        // create a Blob var which content the var file and arrage it as a xml file
         const blob = new Blob([file], { type: "text/sql" });
 
-        var fd = new FormData();
-        
-        fd.append("sql", blob, this.name + "_" + this.firstname + ".sql");
-        console.log(fd)
+        // create a var which will be send by the "fetch". 
+        // it create via the blob var the name we have from the form and the date, and with an id for the API
+        var fd = new FormData();        
+        fd.append("sql", blob, this.name + "_" + this.firstname + "_" +
+        (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + (new Date().getYear() + 1900) +
+        "_" +  new Date().getHours( )+ "-" +  new Date().getMinutes() + ".sql");
 
 
         fetch('http://localhost:4000/api/sql', {
           method: "POST",
           body: fd
         })
+        // display in the console the responce of the fetch
         .then(response => console.log(response))
+        // if we have an error with the fetch it display it
         .catch(function(error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
         })     
