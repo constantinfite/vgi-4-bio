@@ -133,38 +133,54 @@ export default {
   },
   methods: {
     myDataToXML(value1) {
-      var file
-      value1.length > 0 ? file = `<?xml version="1.0"?>
-      <Schema name="DWH">
-      \t<Cube name="Cube" defaultMeasure="new">
-      \t\t<Table name=${value1[0].value} />
-      \t\t\t<some-tag> ${value1} </some-tag><some-tag> ${value1} </some-tag>
-      \t\t<Measure name=${value1} column=${value1} aggregator="avg" formatString="#.#"/>+
-      \t</Cube>\n</Schema>`
-      : file = `<?xml version="1.0"?> <Schema> la table est vide mais ça fonctionne </Schema>`;
 
-      console.log("----> "+file)
-      //var rand = Math.random()
-      //  .toString(36)
-      //  .substr(2);
+      if (value1.length > 0){
+        var file =  `<?xml version="1.0"?>\n\n` +
+                    `<Schema name="DWH">\n` +
+                    `\t<Cube name="Cube" defaultMeasure="new">\n\n\n` +
+                    `\t\t<Table name="${this.mesure}" />\n\n`
       
-      const blob = new Blob([file], { type: "text/xml" });
-      
-      var fd = new FormData();
-      
-      fd.append("upl", blob, this.name + "_" + this.firstname + ".xml");
-      console.log(fd)
+        for(var i = 0; i < value1.length; i++){
+          
+          file += `\t\t\t<Dimension name="${value1[i].value}" foreignKey="${value1[i].value}_id">\n`
+          file += `\t\t\t\t<Hierarchy hasAll="true" primaryKey="${value1[i].value}_id">\n`
+          file += `\t\t\t\t\t<Table name="${value1[i].value}" />\n`
+
+          for(var j = 0; j < value1[i].level.length; j++){
+
+            file += `\t\t\t\t\t\t<Level name="${value1[i].level[j]}" column="${value1[i].level[j]}" uniqueMembers="false" />\n`
+
+          }
+
+          file += `\t\t\t\t</Hierarchy>\n`
+          file += `\t\t\t</Dimension>\n\n`
+
+        }
+
+        file += `\t\t<Measure name="${this.mesure}" column="${this.mesure}" aggregator="avg" formatString="#.#"/>\n`
+        file += `\t</Cube>\n`
+        file += `</Schema>\n`
+
+        const blob = new Blob([file], { type: "text/xml" });
+
+        var fd = new FormData();
+        
+        fd.append("upl", blob, this.name + "_" + this.firstname + ".xml");
+        console.log(fd)
 
 
-      fetch('http://localhost:4000/api/test', {
-        method: "POST",
-        body: fd
-      })
-      .then(response => console.log(response))
-      .catch(function(error) {
-      console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
-      })     
-
+        fetch('http://localhost:4000/api/test', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => console.log(response))
+        .catch(function(error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
+        })     
+      }
+      else{
+        console.log('auccune dimenssion ne sont écrite')
+      }
     },
 
     addNewDim() {
