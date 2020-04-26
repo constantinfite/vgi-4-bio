@@ -7,11 +7,11 @@
             <v-col cols="11" md="12" lg="12" xl="12">
               <v-row>
                 <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field label="Prénom"></v-text-field>
+                  <v-text-field v-model="name" label="Nom"></v-text-field>
                 </v-col>
                 <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field label="Nom"></v-text-field>
-                </v-col>
+                  <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                </v-col>                
               </v-row>
 
               <v-text-field
@@ -126,31 +126,45 @@ export default {
       rawData: donnee.Tables,
       mesure: "",
       tablesData: [],
+      name: "",
+      firstname: "",
       forceRecomputeCounter: 0
     };
   },
   methods: {
     myDataToXML(value1) {
-      var file = `<?xml version="1.0"?> 
+      var file
+      value1.length > 0 ? file = `<?xml version="1.0"?>
       <Schema name="DWH">
       \t<Cube name="Cube" defaultMeasure="new">
       \t\t<Table name=${value1[0].value} />
       \t\t\t<some-tag> ${value1} </some-tag><some-tag> ${value1} </some-tag>
       \t\t<Measure name=${value1} column=${value1} aggregator="avg" formatString="#.#"/>+
-      \t</Cube>\n</Schema>`;
-      var rand = Math.random()
-        .toString(36)
-        .substr(2);
+      \t</Cube>\n</Schema>`
+      : file = `<?xml version="1.0"?> <Schema> la table est vide mais ça fonctionne </Schema>`;
+
+      console.log("----> "+file)
+      //var rand = Math.random()
+      //  .toString(36)
+      //  .substr(2);
+      
       const blob = new Blob([file], { type: "text/xml" });
-
+      
       var fd = new FormData();
+      
+      fd.append("upl", blob, this.name + "_" + this.firstname + ".xml");
+      console.log(fd)
 
-      fd.append("upl", blob, rand + ".xml");
 
-      fetch("http://localhost:4000/api/test", {
-        method: "post",
+      fetch('http://localhost:4000/api/test', {
+        method: "POST",
         body: fd
-      });
+      })
+      .then(response => console.log(response))
+      .catch(function(error) {
+      console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message); 
+      })     
+
     },
 
     addNewDim() {
@@ -251,6 +265,5 @@ export default {
   margin-left: 0;
   margin-right: 0;
 }
-.colonne {
-}
+
 </style>

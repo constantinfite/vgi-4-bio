@@ -3,7 +3,6 @@ client/node_modules
 node_modules
 /dist
 
-uploads
 
 # local env files
 .env.local
