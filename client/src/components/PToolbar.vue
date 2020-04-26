@@ -52,12 +52,6 @@ export default {
           text: "Questionnaire",
           tag: "#avis"
         }
-      ],
-      links: [
-        { icon: "mdi-school", text: "Mon parcours", id: "#parcours" },
-        { icon: "mdi-teach", text: "Mon expérience", id: "#experience" },
-        { icon: "mdi-card-text-outline", text: "Voir mes avis", id: "#avis" },
-        { icon: "mdi-account-box", text: "Contactez moi", id: "#contact" }
       ]
     };
   },

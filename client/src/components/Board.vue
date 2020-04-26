@@ -1,9 +1,14 @@
 <template>
   <div justify="center">
     <h1>Board</h1>
+
+    <!-- Board -->
     <v-row>
+
+      <!-- Left part of the Board -->
       <v-col class="cardleft" cols="11" md="9" lg="9" xl="9">
         <v-row>
+          <!-- Dimensions -->
           <v-col
             v-for="(data, i) in datas"
             :key="i"
@@ -15,6 +20,7 @@
           >
             <p>{{ data.value }}</p>
             <v-row>
+              <!-- Levels -->
               <v-col
                 v-for="(data, j) in datas[i].level"
                 :key="j"
@@ -29,6 +35,8 @@
           </v-col>
         </v-row>
       </v-col>
+
+      <!-- Right part of the Board -->
       <v-col class="card" cols="11" md="3" lg="3" xl="3">
         <p>{{ mesure }}</p>
       </v-col>

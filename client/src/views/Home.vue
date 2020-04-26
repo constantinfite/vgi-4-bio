@@ -1,16 +1,18 @@
 <template>
   <v-container fluid class="main">
     <v-row justify="center">
-      <v-col lg="6" xl="5" class="colonne">
+      <!-- Left part form -->
+      <v-col lg="6" xl="6" class="colonne">
         <v-form>
+          <!-- Select Name First_Name-->
           <v-row align="center" justify="start">
             <v-col cols="11" md="12" lg="12" xl="12">
               <v-row>
                 <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field label="Prénom"></v-text-field>
+                  <v-text-field v-model="prenom" label="Prénom"></v-text-field>
                 </v-col>
                 <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field label="Nom"></v-text-field>
+                  <v-text-field v-model="nom" label="Nom"></v-text-field>
                 </v-col>
               </v-row>
 
@@ -20,7 +22,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-
+          <!-- Add dimension -->
           <div justify="center" align="center" class="mb-5">
             <v-btn class="mr-5" @click="addNewDim" color="primary" small
               >Ajouter une dimension</v-btn
@@ -28,6 +30,7 @@
           </div>
 
           <v-row align="center">
+            <!-- Dimensions  -->
             <v-col
               v-for="(table, i) in tablesData"
               :key="i"
@@ -66,7 +69,7 @@
                   <v-icon right dark>mdi-plus</v-icon>
                 </v-btn>
               </v-row>
-
+              <!-- Levels -->
               <v-row>
                 <v-col
                   cols="11"
@@ -92,12 +95,14 @@
               </v-row>
             </v-col>
           </v-row>
+
+          <!-- Send data to XML  -->
           <v-row justify="center">
             <v-btn
               small
               color="light-blue accent-3"
               class="ma-2 white--text"
-              @click="myDataToXML(tablesData)"
+              @click="myDataToXML(tablesData, prenom, nom)"
             >
               Envoyer
               <v-icon right dark>mdi-send</v-icon>
@@ -105,6 +110,7 @@
           </v-row>
         </v-form>
       </v-col>
+      <!-- Right part Board -->
       <v-col lg="6" xl="6">
         <Board :datas="tablesData" :mesure="mesure" />
       </v-col>
@@ -123,14 +129,18 @@ export default {
   },
   data() {
     return {
-      rawData: donnee.Tables,
-      mesure: "",
-      tablesData: [],
-      forceRecomputeCounter: 0
+      prenom: "",
+      nom: "",
+      rawData: donnee.Tables, //the entire data of the json file
+      mesure: "", // mesure typed in the v-select mesure
+      tablesData: [], // a array of the values fill in the form [{dim1,[level1,level2]},{dim2,[level1,level2]} ...]
+      forceRecomputeCounter: 0 //just a data used to refresh a computed data
     };
   },
   methods: {
-    myDataToXML(value1) {
+    //function which take as argument the tablesData(data) and convert in to XML file
+    //store the XML file in the upload directory at the root
+    myDataToXML(value1, prenom, nom) {
       var file = `<?xml version="1.0"?> 
       <Schema name="DWH">
       \t<Cube name="Cube" defaultMeasure="new">
@@ -138,21 +148,18 @@ export default {
       \t\t\t<some-tag> ${value1} </some-tag><some-tag> ${value1} </some-tag>
       \t\t<Measure name=${value1} column=${value1} aggregator="avg" formatString="#.#"/>+
       \t</Cube>\n</Schema>`;
-      var rand = Math.random()
-        .toString(36)
-        .substr(2);
+
       const blob = new Blob([file], { type: "text/xml" });
 
       var fd = new FormData();
 
-      fd.append("upl", blob, rand + ".xml");
+      fd.append("upl", blob, prenom + nom + ".xml");
 
       fetch("http://localhost:4000/api/test", {
         method: "post",
         body: fd
       });
     },
-
     addNewDim() {
       this.tablesData.push({
         value: "",
@@ -177,11 +184,15 @@ export default {
     }
   },
   computed: {
+    //data with only the titre of the json file : [titre1, titre2, titre3 ...]
+    //type array
     tableTitre() {
       return this.rawData.map(itemY => {
         return itemY.titre;
       });
     },
+    //data with only the level of the json file : [level1, level2, level3 ...]
+    //type array
     tableLevel() {
       var levels = [];
       this.rawData.map(item =>
@@ -191,22 +202,15 @@ export default {
       );
       return levels;
     },
+    //data with all the dimension selected in the v-select
+    //type array
     dimSelected() {
       return this.tablesData.map(itemTable => {
         return itemTable.value;
       });
     },
-    /*levelSelected() {
-      var tablesLevelSelected = [];
-      for (var i = 0; i < this.tablesData.length; i++) {
-        var level = [];
-        this.tablesData[i].level.map(item => {
-          level.push(item);
-        });
-        tablesLevelSelected.push(level);
-      }
-      return tablesLevelSelected;
-    },*/
+    //Dimensions filtered if already selected
+    // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
       return this.tableTitre.map(item => {
         return {
@@ -215,6 +219,8 @@ export default {
         };
       });
     },
+    //Levels filtered if already selected if number of dimension = 3
+    // [[{level1, false}, {level2,true} ...], [{level1, true}, {level2,true} ...], [{level1, false}, {level2,true} ...]]
     computedLevels() {
       this.forceRecomputeCounter;
       var tablesLevel = [];
