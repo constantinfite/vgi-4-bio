@@ -50,14 +50,15 @@
               >
                 <v-text-field
                   v-model="table.value"
-                  :append-outer-icon="message ? 'mdi-send' : 'mdi-pencil'"
-                  :readonly="readonly"
+                  :append-outer-icon="focus ? '' : 'mdi-pencil'"
                   filled
-                  clear-icon="mdi-close-circle"
                   clearable
                   label="Nom de la dimension"
                   type="text"
-                  @click:append-outer="editDimension"
+                  ref="field"
+                  @focus="changeFocus"
+                  @click:append-outer="editDimension(focus)"
+                  @blur="focus = false"
                 ></v-text-field>
                 <v-icon large @click="deleteDim(i)"
                   >mdi-trash-can-outline</v-icon
@@ -151,7 +152,7 @@ export default {
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
-      readonly: true
+      focus: false
     };
   },
   methods: {
@@ -406,8 +407,12 @@ export default {
     deleteLevel(indexDim, indexLevel) {
       this.tablesData[indexDim].level.splice(indexLevel, 1);
     },
+    changeFocus() {
+      this.focus = true;
+    },
     editDimension() {
-      this.readonly = false;
+      this.focus = true;
+      this.$nextTick(() => this.$refs.field.focus());
     }
   },
   computed: {
