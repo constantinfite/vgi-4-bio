@@ -2,7 +2,7 @@
   <v-container fluid class="main">
     <v-row justify="center">
       <!-- Left part form -->
-      <v-col lg="6" xl="6" class="colonne">
+      <v-col lg="3" xl="6" class="colonne">
         <v-form>
           <!-- Select Name First_Name-->
           <v-row align="center" justify="start">
@@ -77,7 +77,7 @@
                 <v-col
                   cols="11"
                   md="10"
-                  lg="4"
+                  lg="6"
                   xl="4"
                   v-for="(table, j) in tablesData[i].level"
                   :key="j"
@@ -117,7 +117,7 @@
         </v-form>
       </v-col>
       <!-- Right part Board -->
-      <v-col lg="6" xl="6">
+      <v-col lg="9" xl="6">
         <Board :datas="tablesData" :mesure="mesure" />
       </v-col>
     </v-row>

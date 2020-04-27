@@ -4,30 +4,29 @@
 
     <!-- Board -->
     <v-row>
-
       <!-- Left part of the Board -->
       <v-col class="cardleft" cols="11" md="9" lg="9" xl="9">
-        <v-row>
+        <v-row justify="end">
           <!-- Dimensions -->
           <v-col
             v-for="(data, i) in datas"
             :key="i"
             cols="11"
-            md="12"
-            lg="3"
-            xl="3"
-            class="table"
+            :md="`${lenData}`"
+            :lg="`${lenData}`"
+            :xl="`${lenData}`"
+            class="table pb-0"
           >
             <p>{{ data.value }}</p>
-            <v-row>
+            <v-row align="end" justify="center">
               <!-- Levels -->
               <v-col
                 v-for="(data, j) in datas[i].level"
                 :key="j"
                 cols="11"
-                md="12"
-                lg="3"
-                xl="3"
+                :md="`${lenlevels(i)}`"
+                :lg="`${lenlevels(i)}`"
+                :xl="`${lenlevels(i)}`"
                 class="level withoutpad"
                 ><p>{{ data }}</p>
               </v-col>
@@ -48,12 +47,22 @@
 export default {
   props: {
     mesure: {
-      type: String
+      type: String,
     },
     datas: {
-      type: Array
-    }
-  }
+      type: Array,
+    },
+  },
+  computed: {
+    lenData: function() {
+      return parseInt(12 / this.datas.length);
+    },
+  },
+  methods: {
+    lenlevels(i) {
+      return parseInt(12 / this.datas[i].level.length);
+    },
+  },
 };
 </script>
 
