@@ -48,7 +48,17 @@
                 color="rgb(243, 243, 243)"
                 outlined
               >
-                <h2>dimension {{ i }}</h2>
+                <v-text-field
+                  v-model="table.value"
+                  :append-outer-icon="message ? 'mdi-send' : 'mdi-pencil'"
+                  :readonly="readonly"
+                  filled
+                  clear-icon="mdi-close-circle"
+                  clearable
+                  label="Nom de la dimension"
+                  type="text"
+                  @click:append-outer="editDimension"
+                ></v-text-field>
                 <v-icon large @click="deleteDim(i)"
                   >mdi-trash-can-outline</v-icon
                 >
@@ -131,7 +141,7 @@ import donnee from "../Choix.json";
 export default {
   name: "Home",
   components: {
-    Board,
+    Board
   },
   data() {
     return {
@@ -141,6 +151,7 @@ export default {
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
+      readonly: true
     };
   },
   methods: {
@@ -202,10 +213,10 @@ export default {
 
         fetch("http://localhost:4000/api/xml", {
           method: "POST",
-          body: fd,
+          body: fd
         })
           // display in the console the responce of the fetch
-          .then((response) => console.log(response))
+          .then(response => console.log(response))
           // if we have an error with the fetch it display it
           .catch(function(error) {
             console.log(
@@ -359,10 +370,10 @@ export default {
 
         fetch("http://localhost:4000/api/sql", {
           method: "POST",
-          body: fd,
+          body: fd
         })
           // display in the console the responce of the fetch
-          .then((response) => console.log(response))
+          .then(response => console.log(response))
           // if we have an error with the fetch it display it
           .catch(function(error) {
             console.log(
@@ -376,7 +387,7 @@ export default {
     addNewDim() {
       this.tablesData.push({
         value: "",
-        level: [""],
+        level: [""]
       });
     },
     deleteDim(index) {
@@ -395,12 +406,15 @@ export default {
     deleteLevel(indexDim, indexLevel) {
       this.tablesData[indexDim].level.splice(indexLevel, 1);
     },
+    editDimension() {
+      this.readonly = false;
+    }
   },
   computed: {
     //data with only the titre of the json file : [titre1, titre2, titre3 ...]
     //type array
     tableTitre() {
-      return this.rawData.map((itemY) => {
+      return this.rawData.map(itemY => {
         return itemY.titre;
       });
     },
@@ -408,8 +422,8 @@ export default {
     //type array
     tableLevel() {
       var levels = [];
-      this.rawData.map((item) =>
-        item.champs.map((level) => {
+      this.rawData.map(item =>
+        item.champs.map(level => {
           levels.push(level);
         })
       );
@@ -418,17 +432,17 @@ export default {
     //data with all the dimension selected in the v-select
     //type array
     dimSelected() {
-      return this.tablesData.map((itemTable) => {
+      return this.tablesData.map(itemTable => {
         return itemTable.value;
       });
     },
     //Dimensions filtered if already selected
     // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
-      return this.tableTitre.map((item) => {
+      return this.tableTitre.map(item => {
         return {
           text: item,
-          disabled: this.dimSelected.includes(item),
+          disabled: this.dimSelected.includes(item)
         };
       });
     },
@@ -440,10 +454,10 @@ export default {
 
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
-        this.tableLevel.map((item) => {
+        this.tableLevel.map(item => {
           level.push({
             text: item,
-            disabled: this.tablesData[i].level.includes(item),
+            disabled: this.tablesData[i].level.includes(item)
           });
         });
 
@@ -452,8 +466,8 @@ export default {
 
       console.log(tablesLevel);
       return tablesLevel;
-    },
-  },
+    }
+  }
 };
 </script>
 
