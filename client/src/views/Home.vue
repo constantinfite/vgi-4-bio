@@ -2,7 +2,7 @@
   <v-container fluid class="main">
     <v-row justify="center">
       <!-- Left part form -->
-      <v-col lg="6" xl="6" class="colonne">
+      <v-col lg="3" xl="6" class="colonne">
         <v-form>
           <!-- Select Name First_Name-->
           <v-row align="center" justify="start">
@@ -44,34 +44,40 @@
               class="card ma-3"
             >
               <v-card
-                class="d-flex justify-space-between mb-3"
+                class="mb-3 d-flex space-between"
+                flat
                 color="rgb(243, 243, 243)"
-                outlined
               >
-                <v-text-field
-                  v-model="table.value"
-                  :append-outer-icon="focus ? '' : 'mdi-pencil'"
-                  filled
-                  clearable
-                  label="Nom de la dimension"
-                  type="text"
-                  ref="field"
-                  @focus="changeFocus"
-                  @click:append-outer="editDimension(focus)"
-                  @blur="focus = false"
-                ></v-text-field>
+                <h1>Dimension {{ i }}</h1>
+                <v-spacer />
+
                 <v-icon large @click="deleteDim(i)"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-card>
+              <v-text-field
+                v-model="table.value"
+                persistent-hint
+                hint="modifier le nom de la dimension"
+                :append-outer-icon="focus ? '' : 'mdi-pencil'"
+                clearable
+                outlined
+                label="Nom de la dimension"
+                type="text"
+                ref="field"
+                @focus="changeFocus"
+                @click:append-outer="editDimension"
+                @blur="focus = false"
+              ></v-text-field>
 
               <v-select
                 class="select-dim"
                 :items="computedDims"
                 @change="changeValueDim($event, i)"
                 :value="table.value"
-                label="Dimension"
+                label="Liste des dimensions"
               ></v-select>
+
               <v-row>
                 <v-btn
                   x-small
@@ -128,7 +134,7 @@
         </v-form>
       </v-col>
       <!-- Right part Board -->
-      <v-col lg="6" xl="6">
+      <v-col lg="9" xl="6">
         <Board :datas="tablesData" :mesure="mesure" />
       </v-col>
     </v-row>
@@ -411,8 +417,8 @@ export default {
       this.focus = true;
     },
     editDimension() {
+      this.$refs.field[0].focus();
       this.focus = true;
-      this.$nextTick(() => this.$refs.field.focus());
     }
   },
   computed: {
