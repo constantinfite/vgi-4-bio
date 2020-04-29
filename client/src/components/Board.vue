@@ -98,10 +98,6 @@ table {
   background-color: #f3f3f3;
 }
 
-thead {
-  min-height: 120px;
-}
-
 th {
   background-color: #1976d2;
   color: white;
