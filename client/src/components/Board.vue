@@ -3,48 +3,46 @@
     <h1>Board</h1>
 
     <!-- Board -->
-    <table>
+    <table v-if="datas.length > 0 || mesure.length > 0">
       <thead>
-        <th v-for="(data, i) in datas" :key="i">
-          {{ data.value | capitalize }}
-
-          <tr>
-            <th v-for="(level, j) in datas[i].level" :key="j">
-              {{ level | capitalize }}
-            </th>
-          </tr>
+        <th
+          v-for="(data, i) in datas"
+          :key="i"
+          :colspan="data.level.length"
+          class="font-weight-medium"
+        >
+          {{ data.value }}
         </th>
+        <th class="font-weight-medium" rowspan="2">{{ mesure }}</th>
 
-        <th>
-          {{ mesure | capitalize }}
-        </th>
+        <tr>
+          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">
+            {{ level }}
+          </th>
+        </tr>
       </thead>
       <tbody>
         <!-- fill of jtext fields -->
-
-        <span v-for="(data, i) in datas" :key="i">
-          <td v-for="(level, j) in datas[i].level" :key="j">
-            <tr v-for="k in 3" :key="k">
-              <v-text-field
-                label="Entrez vos données"
-                single-line
-                solo
-                flat
-              ></v-text-field>
-            </tr>
-          </td>
-        </span>
-
-        <td>
-          <tr v-for="k in 3" :key="k">
+        <tr v-for="k in nbline" :key="k">
+          <td v-for="level in levels" :key="level">
             <v-text-field
               label="Entrez vos données"
               single-line
               solo
               flat
+              hide-details="True"
             ></v-text-field>
-          </tr>
-        </td>
+          </td>
+          <td>
+            <v-text-field
+              label="Entrez vos données"
+              single-line
+              solo
+              flat
+              hide-details="True"
+            ></v-text-field>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -54,51 +52,60 @@
 export default {
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   computed: {
-    lenData: function() {
-      return parseInt(12 / this.datas.length);
-    },
+    levels: function() {
+      var levels = [];
+      for (var i = 0; i < this.datas.length; i++) {
+        console.log("dim");
+        for (var j = 0; j < this.datas[i].level.length; j++) {
+          console.log("lev");
+          levels.push(this.datas[i].level[j]);
+        }
+      }
+      return levels;
+    }
+  },
+  data() {
+    return {
+      nbline: 3
+    };
   },
   methods: {
     lenlevels(i) {
       return parseInt(12 / this.datas[i].level.length);
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
-.card {
-  background-color: rgb(243, 243, 243);
+.line {
+  border: 2px solid green;
 }
-.cardleft {
-  background-color: rgb(224, 224, 224);
-}
-.table {
-  background-color: rgb(206, 206, 206);
-  border: solid;
-}
-.withoutpad {
-}
-.level {
-  border: solid;
+.v-text-field {
+  background-color: transparent;
 }
 
 table {
-  border: 2px solid #42b983;
-  border-radius: 3px;
-  background-color: #fff;
+  border-collapse: collapse;
+  border: 1px solid #1976d2;
+  background-color: #f3f3f3;
+}
+
+thead {
+  min-height: 120px;
 }
 
 th {
-  background-color: #42b983;
-  color: rgba(255, 255, 255, 0.66);
+  background-color: #1976d2;
+  color: white;
+  border: 2px solid black;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -107,12 +114,7 @@ th {
 }
 
 td {
-  background-color: #f9f9f9;
-}
-
-th,
-td {
+  border: 2px solid black;
   min-width: 120px;
-  padding: 10px 20px;
 }
 </style>
