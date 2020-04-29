@@ -56,10 +56,14 @@ export default {
     },
     datas: {
       type: Array
+    },
+    refresh: {
+      type: Number
     }
   },
   computed: {
     levels: function() {
+      this.refresh;
       var levels = [];
       for (var i = 0; i < this.datas.length; i++) {
         console.log("dim");
