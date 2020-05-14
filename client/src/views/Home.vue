@@ -8,7 +8,7 @@
 
     <v-divider class="my-8"></v-divider>
     <v-container fluid class="main">
-      <v-row justify="center">
+      <v-row justify="center" class="main-row">
         <!-- Left part form -->
         <v-col lg="3" xl="6" class="colonne">
           <v-form>
@@ -20,16 +20,24 @@
                     <v-text-field v-model="name" label="Nom"></v-text-field>
                   </v-col>
                   <v-col cols="11" md="10" lg="6" xl="6">
-                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                    <v-text-field
+                      v-model="firstname"
+                      label="Prénom"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
 
-                <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
+                <v-text-field
+                  v-model="mesure"
+                  label="Nom de la mesure"
+                ></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
+              <v-btn class="mr-5" @click="addNewDim" color="primary" small
+                >Ajouter une dimension</v-btn
+              >
             </div>
 
             <v-row align="center">
@@ -43,11 +51,17 @@
                 xl="12"
                 class="card ma-3"
               >
-                <v-card class="mb-3 d-flex space-between" flat color="rgb(243, 243, 243)">
+                <v-card
+                  class="mb-3 d-flex space-between"
+                  flat
+                  color="rgb(243, 243, 243)"
+                >
                   <h1>Dimension {{ i }}</h1>
                   <v-spacer />
 
-                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                  <v-icon large @click="deleteDim(i)"
+                    >mdi-trash-can-outline</v-icon
+                  >
                 </v-card>
                 <v-text-field
                   v-model="table.value"
@@ -101,7 +115,9 @@
                         :value="table"
                         label="Niveau"
                       ></v-select>
-                      <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                      <v-icon class="mr-3" @click="deleteLevel(i, j)"
+                        >mdi-trash-can-outline</v-icon
+                      >
                     </v-card>
                   </v-col>
                 </v-row>
@@ -126,7 +142,7 @@
           </v-form>
         </v-col>
         <!-- Right part Board -->
-        <v-col lg="9" xl="6">
+        <v-col class="board-position ml-2 pa-0" lg="9" xl="6">
           <Board :datas="tablesData" :mesure="mesure" />
         </v-col>
       </v-row>
@@ -478,6 +494,17 @@ export default {
 </script>
 
 <style>
+.board-position {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  
+}
+
+.main-row{
+  align-items: flex-start;
+}
+
 .card {
   background-color: rgb(243, 243, 243);
 }
