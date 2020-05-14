@@ -44,6 +44,29 @@
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <td :colspan="this.levels.length + 1" align="center">
+          <v-btn
+            x-small
+            color="light-blue accent-3"
+            class="ma-2 white--text"
+            @click="addLign()"
+            :disabled="nbline > 14"
+          >
+            Ajouter une ligne
+            <v-icon right dark>mdi-plus</v-icon>
+          </v-btn>
+
+          <v-btn
+            x-small
+            color="red accent-3"
+            class="ma-2 white--text"
+            @click="delLign()"
+            :disabled="nbline < 4"
+            >Suprimer une ligne</v-btn
+          >
+        </td>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -52,14 +75,14 @@
 export default {
   props: {
     mesure: {
-      type: String
+      type: String,
     },
     datas: {
-      type: Array
+      type: Array,
     },
     refresh: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   computed: {
     levels: function() {
@@ -73,18 +96,21 @@ export default {
         }
       }
       return levels;
-    }
+    },
   },
   data() {
     return {
-      nbline: 3
+      nbline: 3,
     };
   },
   methods: {
-    lenlevels(i) {
-      return parseInt(12 / this.datas[i].level.length);
-    }
-  }
+    addLign() {
+      return (this.nbline += 1);
+    },
+    delLign() {
+      return (this.nbline -= 1);
+    },
+  },
 };
 </script>
 
@@ -98,8 +124,11 @@ export default {
 
 table {
   border-collapse: collapse;
-  border: 1px solid #1976d2;
-  background-color: #f3f3f3;
+  background-color: #ffffff;
+}
+
+tfoot td {
+  border: none;
 }
 
 th {
