@@ -102,14 +102,24 @@
                   <v-col
                     cols="11"
                     md="10"
-                    lg="4"
-                    xl="4"
+                    lg="10"
+                    xl="10"
                     v-for="(table, j) in tablesData[i].level"
                     :key="j"
                   >
                     <v-card flat class="d-flex justify-space-between">
-                      <v-select
+                      <v-icon
                         class="mx-3"
+                        @click="upLevel(tablesData, i, j)"
+                        >mdi-arrow-up</v-icon
+                      >
+                      <v-icon
+                        class="mr-3"
+                        @click="downLevel(tablesData, i, j)"
+                        >mdi-arrow-down</v-icon
+                      >
+                      <v-select
+                        class="ml-3 mr-6"
                         :items="computedLevels[i]"
                         @change="changeValueLevel($event, i, j)"
                         :value="table"
@@ -142,7 +152,7 @@
           </v-form>
         </v-col>
         <!-- Right part Board -->
-        <v-col class="board-position ml-2 pa-0" lg="9" xl="6">
+        <v-col class="board-position" lg="9" xl="6">
           <Board :datas="tablesData" :mesure="mesure" />
         </v-col>
       </v-row>
@@ -430,6 +440,18 @@ export default {
     editDimension() {
       this.$refs.field[0].focus();
       this.focus = true;
+    },
+    upLevel(tableData, indexDim, indexLevel) {
+      var element = tableData[indexDim].level[indexLevel];
+      console.log("ok");
+      tableData[indexDim].level.splice(indexLevel, 1);
+      tableData[indexDim].level.splice(indexLevel - 1 , 0, element);
+      this.forceRecomputeCounter++;
+    },
+    downLevel(tableData, indexDim, indexLevel) {
+      var element = tableData[indexDim].level[indexLevel];
+      tableData[indexDim].level.splice(indexLevel, 1);
+      tableData[indexDim].level.splice(indexLevel + 1, 0, element);
     }
   },
   computed: {
@@ -486,7 +508,7 @@ export default {
         tablesLevel.push(level);
       }
 
-      console.log(tablesLevel);
+      //console.log(tablesLevel);
       return tablesLevel;
     }
   }
@@ -498,10 +520,9 @@ export default {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  
 }
 
-.main-row{
+.main-row {
   align-items: flex-start;
 }
 
