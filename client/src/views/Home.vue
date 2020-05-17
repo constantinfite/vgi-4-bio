@@ -109,12 +109,14 @@
                   >
                     <v-card flat class="d-flex justify-space-between">
                       <v-icon
+                        v-show="j > 0"
                         class="mx-3"
                         @click="upLevel(tablesData, i, j)"
                         >mdi-arrow-up</v-icon
                       >
                       <v-icon
-                        class="mr-3"
+                        v-show="j != tablesData[i].level.length - 1"
+                        class="mx-3"
                         @click="downLevel(tablesData, i, j)"
                         >mdi-arrow-down</v-icon
                       >
@@ -443,10 +445,8 @@ export default {
     },
     upLevel(tableData, indexDim, indexLevel) {
       var element = tableData[indexDim].level[indexLevel];
-      console.log("ok");
       tableData[indexDim].level.splice(indexLevel, 1);
-      tableData[indexDim].level.splice(indexLevel - 1 , 0, element);
-      this.forceRecomputeCounter++;
+      tableData[indexDim].level.splice(indexLevel - 1, 0, element);
     },
     downLevel(tableData, indexDim, indexLevel) {
       var element = tableData[indexDim].level[indexLevel];
