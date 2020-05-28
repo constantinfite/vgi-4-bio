@@ -24,7 +24,7 @@
                   </v-col>
                 </v-row>
 
-                <v-text-field @input="changeMesure($event)" label="Nom de la mesure"></v-text-field>
+                <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
@@ -124,13 +124,22 @@
           class="board-position ml-8"
           lg="8"
           xl="6"
-          v-if="this.tablesData.length > 0 || this.mesure.name.length > 0"
+          v-if="this.tablesData.length > 0 || this.mesure.length > 0"
         >
           <v-row justify="center" class="main-row">
-            <Board :datas="this.tablesData" :mesure="this.mesure" :refresh="forceRecomputeCounter" />
+            <Board
+              :mesure="mesure"
+              :datas="tablesData"
+              :refresh="forceRecomputeCounter"
+              @updateArrayOfValues="updateArrayOfValues"
+            />
           </v-row>
           <v-row justify="center" class="main-row">
-            <EnvButton :datas="this.tablesData" :mesure="this.mesure" />
+            <EnvButton
+              :datas="this.tablesData"
+              :mesure="this.mesure"
+              :arrayOfValues="arrayOfValues"
+            />
           </v-row>
         </v-col>
       </v-row>
@@ -154,27 +163,25 @@ export default {
   data() {
     return {
       rawData: donnee.Tables, //the entire data of the json file
-      mesure: {
-        name: "",
-        values: []
-      }, // mesure typed in the v-select mesure
+      mesure: "", // mesure typed in the v-select mesure
       tablesData: [], // a array of the values fill in the form [{dim1,[level1,level2]},{dim2,[level1,level2]} ...]
+      arrayOfValues: [],
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
       focus: false
     };
   },
-  methods: {
-    changeMesure(value) {
-      this.mesure.name = value;
-    },
 
+  methods: {
+    updateArrayOfValues(e) {
+      console.log(e);
+      this.arrayOfValues = e;
+    },
     addNewDim() {
       this.tablesData.push({
         dim: "",
-        level: [""],
-        values: [[]]
+        level: [""]
       });
     },
     deleteDim(index) {

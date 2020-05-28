@@ -1,5 +1,5 @@
 <template>
-  <div justify="center" v-if="datas.length > 0 || this.mesure.name.length > 0">
+  <div justify="center" v-if="datas.length > 0 || this.mesure.length > 0">
     <h1>Board</h1>
     <!-- add table -->
     <table>
@@ -11,7 +11,7 @@
           :colspan="data.level.length"
           class="font-weight-medium"
         >{{ data.dim }}</th>
-        <th class="font-weight-medium" rowspan="2">{{ this.mesure.name }}</th>
+        <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
         <tr>
           <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level }}</th>
@@ -105,7 +105,7 @@
 export default {
   props: {
     mesure: {
-      type: Object
+      type: String
     },
     datas: {
       type: Array
@@ -130,7 +130,7 @@ export default {
     return {
       dialog: false,
       nbline: 3,
-      textFieldsValues: []
+      arrayOfValues: []
     };
   },
   methods: {
@@ -141,53 +141,23 @@ export default {
       return (this.nbline -= 1);
     },
     verifLastLign() {
-      console.log(
-        this.textFieldsValues[this.textFieldsValues.length - 1].join("")
-      );
-      for (var i = 0; i < this.textFieldsValues.length; i++) {
-        if (
-          this.textFieldsValues[i][this.textFieldsValues[i].length - 1] != ""
-        ) {
-          this.dialog = true;
-          return 0;
-        }
+      if (this.arrayOfValues[this.arrayOfValues.length - 1].join("") != "") {
+        this.dialog = true;
+      } else {
+        this.delLign();
       }
-      return this.delLign();
     },
     insertTab: function() {
-      var insertTab = [];
-
-      for (var j = 1; j <= this.levels.length + 1; j++) {
+      this.arrayOfValues = [];
+      for (var i = 1; i <= this.nbline; i++) {
         var lign_value = [];
-        for (var i = 1; i <= this.nbline; i++) {
+        for (var j = 1; j <= this.levels.length + 1; j++) {
           var str_id = `textfield:${i};${j}`;
           lign_value.push(document.getElementById(str_id).value);
         }
-        insertTab.push(lign_value);
+        this.arrayOfValues.push(lign_value);
       }
-
-      var col_num = 0;
-      for (var k = 0; k < this.datas.length; k++) {
-        this.datas[k].values.splice(0, this.datas[k].values.length);
-        col_num += this.datas[k].level.length;
-        for (
-          var col = col_num - this.datas[k].level.length;
-          col < this.levels.length;
-          col++
-        ) {
-          if (col < col_num) {
-            this.datas[k].values.push(insertTab[col]);
-            //col_num += 1;
-          } else {
-            break;
-          }
-        }
-      }
-
-      this.mesure.values = insertTab[insertTab.length - 1];
-
-      this.textFieldsValues = insertTab;
-      return this.textFieldsValues;
+      this.$emit("updateArrayOfValues", this.arrayOfValues);
     }
   }
 };
