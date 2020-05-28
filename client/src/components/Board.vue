@@ -1,8 +1,8 @@
 <template>
-  <div justify="center">
+  <div justify="center" v-if="datas.length > 0 || this.mesure.name.length > 0">
     <h1>Board</h1>
     <!-- add table -->
-    <table v-if="datas.length > 0 || this.mesure.name.length > 0">
+    <table>
       <!-- add head table -->
       <thead>
         <th
