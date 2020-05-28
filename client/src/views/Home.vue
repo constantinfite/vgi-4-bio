@@ -1,111 +1,117 @@
 <template>
-  <v-container fluid class="main">
-    <v-row justify="center">
-      <!-- Left part form -->
-      <v-col lg="3" xl="6" class="colonne">
-        <v-form>
-          <!-- Select Name First_Name-->
-          <v-row align="center" justify="start">
-            <v-col cols="11" md="12" lg="12" xl="12">
-              <v-row>
-                <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field v-model="name" label="Nom"></v-text-field>
-                </v-col>
-                <v-col cols="11" md="10" lg="6" xl="6">
-                  <v-text-field v-model="firstname" label="Prénom"></v-text-field>
-                </v-col>
-              </v-row>
+  <div>
+    <v-container fluid class="main">
+      <v-row justify="center">
+        <!-- Left part form -->
+        <v-col lg="3" xl="6" class="colonne">
+          <v-form>
+            <!-- Select Name First_Name-->
+            <v-row align="center" justify="start">
+              <v-col cols="11" md="12" lg="12" xl="12">
+                <v-row>
+                  <v-col cols="11" md="10" lg="6" xl="6">
+                    <v-text-field v-model="name" label="Nom"></v-text-field>
+                  </v-col>
+                  <v-col cols="11" md="10" lg="6" xl="6">
+                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                  </v-col>
+                </v-row>
 
-              <v-text-field @input="changeMesure($event)" label="Nom de la mesure"></v-text-field>
-            </v-col>
-          </v-row>
-          <!-- Add dimension -->
-          <div justify="center" align="center" class="mb-5">
-            <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
-          </div>
+                <v-text-field @input="changeMesure($event)" label="Nom de la mesure"></v-text-field>
+              </v-col>
+            </v-row>
+            <!-- Add dimension -->
+            <div justify="center" align="center" class="mb-5">
+              <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
+            </div>
 
-          <v-row align="center">
-            <!-- Dimensions  -->
-            <v-col
-              v-for="(table, i) in tablesData"
-              :key="i"
-              cols="11"
-              md="12"
-              lg="12"
-              xl="12"
-              class="card ma-3"
-            >
-              <v-card class="d-flex justify-space-between mb-3" color="rgb(243, 243, 243)" outlined>
-                <h2>dimension {{ i }}</h2>
-                <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
-              </v-card>
-
-              <v-select
-                class="select-dim"
-                :items="computedDims"
-                @change="changeValueDim($event, i)"
-                :value="table.dim"
-                label="Dimension"
-              ></v-select>
-              <v-row>
-                <v-btn
-                  x-small
-                  color="light-blue accent-3"
-                  class="ma-2 white--text"
-                  @click="addLevel(i)"
+            <v-row align="center">
+              <!-- Dimensions  -->
+              <v-col
+                v-for="(table, i) in tablesData"
+                :key="i"
+                cols="11"
+                md="12"
+                lg="12"
+                xl="12"
+                class="card ma-3"
+              >
+                <v-card
+                  class="d-flex justify-space-between mb-3"
+                  color="rgb(243, 243, 243)"
+                  outlined
                 >
-                  Ajouter un niveau
-                  <v-icon right dark>mdi-plus</v-icon>
-                </v-btn>
-              </v-row>
-              <!-- Levels -->
-              <v-row>
-                <v-col
-                  cols="11"
-                  md="10"
-                  lg="6"
-                  xl="4"
-                  v-for="(table, j) in tablesData[i].level"
-                  :key="j"
-                >
-                  <v-card flat class="d-flex justify-space-between">
-                    <v-select
-                      class="mx-3"
-                      :items="computedLevels[i]"
-                      @change="changeValueLevel($event, i, j)"
-                      :value="table"
-                      label="Niveau"
-                    ></v-select>
-                    <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+                  <h2>dimension {{ i }}</h2>
+                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                </v-card>
 
-          <!-- Send data to XML  -->
-          <v-row justify="center">
-            <v-btn
-              small
-              color="light-blue accent-3"
-              class="ma-2 white--text"
-              @click="
+                <v-select
+                  class="select-dim"
+                  :items="computedDims"
+                  @change="changeValueDim($event, i)"
+                  :value="table.dim"
+                  label="Dimension"
+                ></v-select>
+                <v-row>
+                  <v-btn
+                    x-small
+                    color="light-blue accent-3"
+                    class="ma-2 white--text"
+                    @click="addLevel(i)"
+                  >
+                    Ajouter un niveau
+                    <v-icon right dark>mdi-plus</v-icon>
+                  </v-btn>
+                </v-row>
+                <!-- Levels -->
+                <v-row>
+                  <v-col
+                    cols="11"
+                    md="10"
+                    lg="6"
+                    xl="4"
+                    v-for="(table, j) in tablesData[i].level"
+                    :key="j"
+                  >
+                    <v-card flat class="d-flex justify-space-between">
+                      <v-select
+                        class="mx-3"
+                        :items="computedLevels[i]"
+                        @change="changeValueLevel($event, i, j)"
+                        :value="table"
+                        label="Niveau"
+                      ></v-select>
+                      <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+
+            <!-- Send data to XML  -->
+            <v-row justify="center">
+              <v-btn
+                small
+                color="light-blue accent-3"
+                class="ma-2 white--text"
+                @click="
                 myDataToXML(tablesData);
                 myDataToSQL(tablesData);
               "
-            >
-              Envoyer
-              <v-icon right dark>mdi-send</v-icon>
-            </v-btn>
-          </v-row>
-        </v-form>
-      </v-col>
-      <!-- Right part Board -->
-      <v-col lg="9" xl="6">
-        <Board :datas="tablesData" :mesure="this.mesure" :refresh="forceRecomputeCounter" />
-      </v-col>
-    </v-row>
-  </v-container>
+              >
+                Envoyer
+                <v-icon right dark>mdi-send</v-icon>
+              </v-btn>
+            </v-row>
+          </v-form>
+        </v-col>
+        <!-- Right part Board -->
+        <v-col lg="9" xl="6">
+          <Board :datas="tablesData" :mesure="this.mesure" :refresh="forceRecomputeCounter" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
