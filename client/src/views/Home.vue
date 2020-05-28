@@ -20,24 +20,16 @@
                     <v-text-field v-model="name" label="Nom"></v-text-field>
                   </v-col>
                   <v-col cols="11" md="10" lg="6" xl="6">
-                    <v-text-field
-                      v-model="firstname"
-                      label="Prénom"
-                    ></v-text-field>
+                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
                   </v-col>
                 </v-row>
 
-                <v-text-field
-                  v-model="mesure"
-                  label="Nom de la mesure"
-                ></v-text-field>
+                <v-text-field @input="changeMesure($event)" label="Nom de la mesure"></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5" @click="addNewDim" color="primary" small
-                >Ajouter une dimension</v-btn
-              >
+              <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
             </div>
 
             <v-row align="center">
@@ -51,17 +43,11 @@
                 xl="12"
                 class="card ma-3"
               >
-                <v-card
-                  class="mb-3 d-flex space-between"
-                  flat
-                  color="rgb(243, 243, 243)"
-                >
+                <v-card class="mb-3 d-flex space-between" flat color="rgb(243, 243, 243)">
                   <h1>Dimension {{ i }}</h1>
                   <v-spacer />
 
-                  <v-icon large @click="deleteDim(i)"
-                    >mdi-trash-can-outline</v-icon
-                  >
+                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
                 </v-card>
                 <v-text-field
                   v-model="table.value"
@@ -82,7 +68,7 @@
                   class="select-dim"
                   :items="computedDims"
                   @change="changeValueDim($event, i)"
-                  :value="table.value"
+                  :value="table.dim"
                   label="Liste des dimensions"
                 ></v-select>
 
@@ -112,14 +98,12 @@
                         v-show="j > 0"
                         class="mx-3"
                         @click="upLevel(tablesData, i, j)"
-                        >mdi-arrow-up</v-icon
-                      >
+                      >mdi-arrow-up</v-icon>
                       <v-icon
                         v-show="j != tablesData[i].level.length - 1"
                         class="mx-3"
                         @click="downLevel(tablesData, i, j)"
-                        >mdi-arrow-down</v-icon
-                      >
+                      >mdi-arrow-down</v-icon>
                       <v-select
                         class="ml-3 mr-6"
                         :items="computedLevels[i]"
@@ -127,9 +111,7 @@
                         :value="table"
                         label="Niveau"
                       ></v-select>
-                      <v-icon class="mr-3" @click="deleteLevel(i, j)"
-                        >mdi-trash-can-outline</v-icon
-                      >
+                      <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -143,9 +125,9 @@
                 color="light-blue accent-3"
                 class="ma-2 white--text"
                 @click="
-                  myDataToXML(tablesData);
-                  myDataToSQL(tablesData);
-                "
+                myDataToXML(tablesData);
+                myDataToSQL(tablesData);
+              "
               >
                 Envoyer
                 <v-icon right dark>mdi-send</v-icon>
@@ -155,7 +137,7 @@
         </v-col>
         <!-- Right part Board -->
         <v-col class="board-position" lg="9" xl="6">
-          <Board :datas="tablesData" :mesure="mesure" />
+          <Board :datas="tablesData" :mesure="this.mesure" :refresh="forceRecomputeCounter" />
         </v-col>
       </v-row>
     </v-container>
@@ -176,7 +158,10 @@ export default {
   data() {
     return {
       rawData: donnee.Tables, //the entire data of the json file
-      mesure: "", // mesure typed in the v-select mesure
+      mesure: {
+        name: "",
+        values: []
+      }, // mesure typed in the v-select mesure
       tablesData: [], // a array of the values fill in the form [{dim1,[level1,level2]},{dim2,[level1,level2]} ...]
       name: "",
       firstname: "",
@@ -196,13 +181,13 @@ export default {
           `<?xml version="1.0"?>\n\n` +
           `<Schema name="DWH">\n` +
           `\t<Cube name="Cube" defaultMeasure="new">\n\n\n` +
-          `\t\t<Table name="${this.mesure}" />\n\n`;
+          `\t\t<Table name="${this.mesure.name}" />\n\n`;
 
         // the for loop allow the parcour of value in order to complete the var file
         for (var i = 0; i < value1.length; i++) {
-          file += `\t\t\t<Dimension name="${value1[i].value}" foreignKey="${value1[i].value}_id">\n`;
-          file += `\t\t\t\t<Hierarchy hasAll="true" primaryKey="${value1[i].value}_id">\n`;
-          file += `\t\t\t\t\t<Table name="${value1[i].value}" />\n`;
+          file += `\t\t\t<Dimension name="${value1[i].dim}" foreignKey="${value1[i].dim}_id">\n`;
+          file += `\t\t\t\t<Hierarchy hasAll="true" primaryKey="${value1[i].dim}_id">\n`;
+          file += `\t\t\t\t\t<Table name="${value1[i].dim}" />\n`;
 
           for (var j = 0; j < value1[i].level.length; j++) {
             file += `\t\t\t\t\t\t<Level name="${value1[i].level[j]}" column="${value1[i].level[j]}" uniqueMembers="false" />\n`;
@@ -212,7 +197,7 @@ export default {
           file += `\t\t\t</Dimension>\n\n`;
         }
 
-        file += `\t\t<Measure name="${this.mesure}" column="${this.mesure}" aggregator="avg" formatString="#.#"/>\n`;
+        file += `\t\t<Measure name="${this.mesure.name}" column="${this.mesure.name}" aggregator="avg" formatString="#.#"/>\n`;
         file += `\t</Cube>\n`;
         file += `</Schema>\n`;
 
@@ -266,19 +251,19 @@ export default {
         // we create multiple var to use the for loop once and maque the read easy
         var Tables = "";
         var linkTable =
-          `CREATE TABLE IF NOT EXISTS ${this.mesure
+          `CREATE TABLE IF NOT EXISTS ${this.mesure.name
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")} (\n` +
-          `\t${this.mesure
+          `\t${this.mesure.name
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")} INTEGER,\n`;
         var allID = "";
 
         for (var i = 0; i < value1.length; i++) {
-          Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].value
+          Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")} (\n`;
-          Tables += `\t${value1[i].value
+          Tables += `\t${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")}_ID SERIAL,\n`;
 
@@ -288,22 +273,22 @@ export default {
               .replace(/[^a-zA-Z0-9]/g, "_")} TEXT,\n`;
           }
 
-          Tables += `\tPRIMARY KEY (${value1[i].value
+          Tables += `\tPRIMARY KEY (${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")}_ID)\n`;
           Tables += `);\n`;
 
-          linkTable += `\t${value1[i].value
+          linkTable += `\t${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")}_ID INTEGER REFERENCES ${value1[
             i
-          ].value
+          ].dim
             .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}(${value1[i].value
+            .replace(/[^a-zA-Z0-9]/g, "_")}(${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")}_ID),\n`;
 
-          allID += `${value1[i].value
+          allID += `${value1[i].dim
             .toUpperCase()
             .replace(/[^a-zA-Z0-9]/g, "_")}_ID,`;
         }
@@ -327,10 +312,10 @@ export default {
 
           for(var i = 0; i < value1.length; i++){
 
-            insert += `INSERT INTO ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}`
+            insert += `INSERT INTO ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}`
             
-            Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`
-            Tables += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID SERIAL,\n`
+            Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`
+            Tables += `\t${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID SERIAL,\n`
 
             for(var j = 0; j < value1[i].level.length; j++){
 
@@ -352,14 +337,14 @@ export default {
 
             insert = insert.slice(0, -1) + ');\n' 
 
-            allIDInsert += `(SELECT MAX(${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID) FROM ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}),`
+            allIDInsert += `(SELECT MAX(${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID) FROM ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}),`
 
-            Tables += `\tPRIMARY KEY (${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID)\n`
+            Tables += `\tPRIMARY KEY (${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID)\n`
             Tables += `);\n`
 
-            linkTable += `\t${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID INTEGER REFERENCES ${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID),\n`
+            linkTable += `\t${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID INTEGER REFERENCES ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID),\n`
 
-            allID += `${value1[i].value.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID,`
+            allID += `${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID,`
 
           }
 
@@ -414,17 +399,22 @@ export default {
         console.log("auccune dimenssion ne sont écrite");
       }
     },
+    changeMesure(value) {
+      this.mesure.name = value;
+    },
+
     addNewDim() {
       this.tablesData.push({
-        value: "",
-        level: [""]
+        dim: "",
+        level: [""],
+        values: [[]]
       });
     },
     deleteDim(index) {
       this.tablesData.splice(index, 1);
     },
     changeValueDim(value, i) {
-      this.tablesData[i].value = value;
+      this.tablesData[i].dim = value;
     },
     addLevel(indexDim) {
       this.tablesData[indexDim].level.push("");
