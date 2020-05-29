@@ -502,6 +502,7 @@ export default {
         this.tablesData[indexDim].level[indexLevel].modifyLevel = false;
       } else {
         this.tablesData[indexDim].level[indexLevel].modifyLevel = true;
+        this.tablesData[indexDim].level[indexLevel].name = "";
       }
     },
     upLevel(tableData, indexDim, indexLevel) {
@@ -562,7 +563,7 @@ export default {
         this.tableLevel.map(item => {
           level.push({
             text: item,
-            disabled: this.tablesData[i].level.includes(item)
+            disabled: this.tablesData[i].level[0].name.includes(item)
           });
         });
 
