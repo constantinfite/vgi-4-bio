@@ -139,6 +139,7 @@
               :datas="this.tablesData"
               :mesure="this.mesure"
               :arrayOfValues="arrayOfValues"
+              :name_firstname="this.name + '_' + this.firstname"
             />
           </v-row>
         </v-col>

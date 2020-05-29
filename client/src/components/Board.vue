@@ -153,7 +153,11 @@ export default {
         var lign_value = [];
         for (var j = 1; j <= this.levels.length + 1; j++) {
           var str_id = `textfield:${i};${j}`;
-          lign_value.push(document.getElementById(str_id).value);
+          var sting_val = document.getElementById(str_id).value;
+          while (sting_val[sting_val.length - 1] == " ") {
+            sting_val = sting_val.slice(0, -1);
+          }
+          lign_value.push(sting_val);
         }
         this.arrayOfValues.push(lign_value);
       }
