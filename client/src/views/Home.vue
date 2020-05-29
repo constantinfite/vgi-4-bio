@@ -111,13 +111,13 @@
                     <v-card elevation="1" class="d-flex justify-space-between">
                       <v-icon
                         v-if="j > 0"
-                        class="mx-3"
+                        class="mx-1"
                         @click="upLevel(tablesData, i, j)"
                         >mdi-arrow-up</v-icon
                       >
                       <v-icon
                         v-if="j != tablesData[i].level.length - 1"
-                        class="mx-3"
+                        class="mx-1"
                         @click="downLevel(tablesData, i, j)"
                         >mdi-arrow-down</v-icon
                       >
@@ -138,7 +138,7 @@
 
                       <v-select
                         v-if="level.modifyLevel"
-                        class="ml-3 mr-6"
+                        class="ml-2"
                         :items="computedLevels[i]"
                         @change="changeValueLevel($event, i, j)"
                         :value="level.name"
@@ -146,7 +146,7 @@
                       ></v-select>
                       <v-icon
                         v-if="level.modifyLevel"
-                        class="mx-3"
+                        class="mx-1"
                         @click="editDimensionLevel(i, j)"
                         >mdi-pencil</v-icon
                       >
@@ -539,7 +539,7 @@ export default {
     //type array
     dimSelected() {
       return this.tablesData.map(itemTable => {
-        return itemTable.value;
+        return itemTable.dim;
       });
     },
     //Dimensions filtered if already selected
