@@ -26,7 +26,8 @@
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
             ></TablePopUP>
-
+          </v-row>
+          <v-row justify="center" class="main-row">
             <TablePopUPDinamic
               :datas="this.datas"
               :mesure="this.mesure"
