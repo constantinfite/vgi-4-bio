@@ -130,7 +130,7 @@ export default {
       var levels = [];
       for (var i = 0; i < this.datas.length; i++) {
         for (var j = 0; j < this.datas[i].level.length; j++) {
-          levels.push(this.datas[i].level[j]);
+          levels.push(this.datas[i].level[j].name);
         }
       }
       return levels;

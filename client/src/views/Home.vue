@@ -123,30 +123,31 @@
                       >
 
                       <v-text-field
-                        v-if="!table.modifyLevel"
-                        v-model="level"
+                        v-if="!level.modifyLevel"
+                        v-model="level.name"
                         persistent-hint
+                        class="ma-0"
                         hint="modifier le nom de la dimension"
                         append-outer-icon="mdi-close-circle-outline"
                         clearable
                         outlined
                         label="Nom de la dimension"
                         type="text"
-                        @click:append-outer="editDimensionLevel(i)"
+                        @click:append-outer="editDimensionLevel(i, j)"
                       ></v-text-field>
 
                       <v-select
-                        v-if="table.modifyLevel"
+                        v-if="level.modifyLevel"
                         class="ml-3 mr-6"
                         :items="computedLevels[i]"
                         @change="changeValueLevel($event, i, j)"
-                        :value="level"
+                        :value="level.name"
                         :label="'Niveau ' + (j + 1)"
                       ></v-select>
                       <v-icon
-                        v-if="table.modifyLevel"
+                        v-if="level.modifyLevel"
                         class="mx-3"
-                        @click="editDimensionLevel(i)"
+                        @click="editDimensionLevel(i, j)"
                         >mdi-pencil</v-icon
                       >
                       <v-icon class="mr-3" @click="deleteLevel(i, j)"
@@ -464,8 +465,7 @@ export default {
       this.tablesData.push({
         dim: "",
         modifyDim: true,
-        modifyLevel: true,
-        level: [""],
+        level: [{ name: "", modifyLevel: true }],
         values: [[]]
       });
     },
@@ -476,10 +476,10 @@ export default {
       this.tablesData[i].dim = value;
     },
     addLevel(indexDim) {
-      this.tablesData[indexDim].level.push("");
+      this.tablesData[indexDim].level.push({ name: "", modifyLevel: true });
     },
     changeValueLevel(value, i, j) {
-      this.tablesData[i].level[j] = value;
+      this.tablesData[i].level[j].name = value;
       this.forceRecomputeCounter++;
     },
     deleteLevel(indexDim, indexLevel) {
@@ -497,11 +497,11 @@ export default {
       }
     },
 
-    editDimensionLevel(indexDim) {
-      if (this.tablesData[indexDim].modifyLevel) {
-        this.tablesData[indexDim].modifyLevel = false;
+    editDimensionLevel(indexDim, indexLevel) {
+      if (this.tablesData[indexDim].level[indexLevel].modifyLevel) {
+        this.tablesData[indexDim].level[indexLevel].modifyLevel = false;
       } else {
-        this.tablesData[indexDim].modifyLevel = true;
+        this.tablesData[indexDim].level[indexLevel].modifyLevel = true;
       }
     },
     upLevel(tableData, indexDim, indexLevel) {
