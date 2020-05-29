@@ -1,8 +1,0 @@
-<?xml version="1.0"?> 
-      <Schema name="DWH">
-      	<Cube name="Cube" defaultMeasure="new">
-      		<Table name=DICO ESPECE SEMEE />
-      			<some-tag> [object Object] </some-tag><some-tag> [object Object] </some-tag>
-      		<Measure name=[object Object] column=[object Object] aggregator="avg" formatString="#.#"/>+
-      	</Cube>
-</Schema>

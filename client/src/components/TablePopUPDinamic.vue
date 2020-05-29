@@ -47,6 +47,19 @@ export default {
         }
       }
       return levels;
+    },
+    rowspanArray: function() {
+      var rowspanArray = [];
+      for (var j = 1; j <= this.levels.length + 1; j++) {
+        var col_value = [];
+        for (var i = 1; i <= this.arrayOfValues.length; i++) {
+          while (sting_val[sting_val.length - 1] == " ") {
+            col_value = col_value.slice(0, -1);
+          }
+          lign_value.push(sting_val);
+        }
+        this.arrayOfValues.push(lign_value);
+      }
     }
   }
 };
