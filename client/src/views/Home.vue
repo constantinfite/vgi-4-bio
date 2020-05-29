@@ -40,7 +40,7 @@
               >
             </div>
 
-            <v-row align="center">
+            <v-row>
               <!-- Dimensions  -->
               <v-col
                 v-for="(table, i) in tablesData"
@@ -52,53 +52,50 @@
                 class="card ma-3"
               >
                 <v-card
-                  class="mb-3 d-flex space-between"
+                  class="d-flex space-between"
                   flat
                   color="rgb(243, 243, 243)"
                 >
-                  <h1>Dimension {{ i }}</h1>
+                  <h1>Dimension {{ i + 1 }}</h1>
                   <v-spacer />
 
                   <v-icon large @click="deleteDim(i)"
                     >mdi-trash-can-outline</v-icon
                   >
                 </v-card>
-                <v-text-field
-                  v-model="table.dim"
-                  persistent-hint
-                  hint="modifier le nom de la dimension"
-                  :append-outer-icon="focus ? '' : 'mdi-pencil'"
-                  clearable
-                  outlined
-                  label="Nom de la dimension"
-                  type="text"
-                  ref="field"
-                  @focus="changeFocus"
-                  @click:append-outer="editDimension"
-                  @blur="focus = false"
-                ></v-text-field>
+                <v-col xl="4" lg="4">
+                  <v-text-field
+                    width="50%"
+                    v-model="table.dim"
+                    persistent-hint
+                    hint="modifier le nom de la dimension"
+                    :append-outer-icon="focus ? '' : 'mdi-pencil'"
+                    clearable
+                    outlined
+                    label="Nom de la dimension"
+                    type="text"
+                    ref="field"
+                    @focus="changeFocus"
+                    @click:append-outer="editDimension"
+                    @blur="focus = false"
+                  ></v-text-field>
+                  <v-select
+                    :items="computedDims"
+                    @change="changeValueDim($event, i)"
+                    :value="table.dim"
+                    label="Liste des dimensions"
+                  ></v-select>
+                </v-col>
+                <h2>Niveau</h2>
 
-                <v-select
-                  class="select-dim"
-                  :items="computedDims"
-                  @change="changeValueDim($event, i)"
-                  :value="table.dim"
-                  label="Liste des dimensions"
-                ></v-select>
-
-                <v-row>
-                  <v-btn
-                    x-small
-                    color="light-blue accent-3"
-                    class="ma-2 white--text"
-                    @click="addLevel(i)"
-                  >
-                    Ajouter un niveau
-                    <v-icon right dark>mdi-plus</v-icon>
-                  </v-btn>
-                </v-row>
+                <v-combobox
+                  v-model="select"
+                  :items="computedLevels[i]"
+                  label="Selectionner les niveaux"
+                  multiple
+                ></v-combobox>
                 <!-- Levels -->
-                <v-row>
+                <v-row justify="center">
                   <v-col
                     cols="11"
                     md="10"
@@ -107,15 +104,15 @@
                     v-for="(table, j) in tablesData[i].level"
                     :key="j"
                   >
-                    <v-card flat class="d-flex justify-space-between">
+                    <v-card elevation="1" class="d-flex justify-space-between">
                       <v-icon
-                        v-show="j > 0"
+                        v-if="j > 0"
                         class="mx-3"
                         @click="upLevel(tablesData, i, j)"
                         >mdi-arrow-up</v-icon
                       >
                       <v-icon
-                        v-show="j != tablesData[i].level.length - 1"
+                        v-if="j != tablesData[i].level.length - 1"
                         class="mx-3"
                         @click="downLevel(tablesData, i, j)"
                         >mdi-arrow-down</v-icon
@@ -125,13 +122,24 @@
                         :items="computedLevels[i]"
                         @change="changeValueLevel($event, i, j)"
                         :value="table"
-                        label="Niveau"
+                        :label="'Niveau ' + (j + 1)"
                       ></v-select>
                       <v-icon class="mr-3" @click="deleteLevel(i, j)"
                         >mdi-trash-can-outline</v-icon
                       >
                     </v-card>
                   </v-col>
+                  <v-row justify="center">
+                    <v-btn
+                      x-small
+                      color="#95C35A"
+                      class="ma-2 white--text"
+                      @click="addLevel(i)"
+                    >
+                      Ajouter un niveau
+                      <v-icon right dark>mdi-plus</v-icon>
+                    </v-btn>
+                  </v-row>
                 </v-row>
               </v-col>
             </v-row>
@@ -168,9 +176,11 @@
 
 <script>
 // @ is an alias to /src
+
 import Board from "@/components/Board.vue";
 import Video from "@/components/Video.vue";
 import donnee from "../Choix.json";
+
 export default {
   name: "Home",
   components: {

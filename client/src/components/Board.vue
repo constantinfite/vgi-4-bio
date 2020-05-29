@@ -10,11 +10,15 @@
           :key="i"
           :colspan="data.level.length"
           class="font-weight-medium"
-        >{{ data.dim }}</th>
+        >
+          {{ data.dim }}
+        </th>
         <th class="font-weight-medium" rowspan="2">{{ this.mesure.name }}</th>
 
         <tr>
-          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level }}</th>
+          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">
+            {{ level }}
+          </th>
         </tr>
       </thead>
       <!-- add body table -->
@@ -50,8 +54,8 @@
             x-small
             color="light-blue accent-3"
             class="ma-2 white--text"
-            @click="  
-              insertTab();            
+            @click="
+              insertTab();
               addLign();
               insertTab();
             "
@@ -66,19 +70,22 @@
             color="red accent-3"
             class="ma-2 white--text"
             @click="
-              insertTab();              
+              insertTab();
               verifLastLign();
               insertTab();
             "
             :disabled="nbline < 4"
-          >Suprimer une ligne</v-btn>
+            >Suprimer une ligne</v-btn
+          >
           <!-- add v-dialog to secure the lign deleting -->
           <v-dialog v-model="dialog" persistent max-width="350">
             <v-card>
               <v-card-title class="headline">Attention !</v-card-title>
               <v-card-text>
                 <p>Un champs de la dernière ligne n'est pas vide.</p>
-                <p class="font-weight-bold">Êtes vous sûr de vouloir supprimer la ligne?</p>
+                <p class="font-weight-bold">
+                  Êtes vous sûr de vouloir supprimer la ligne?
+                </p>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -90,8 +97,11 @@
                     delLign();
                     insertTab();
                   "
-                >Suprimer</v-btn>
-                <v-btn color="light-blue darken-1" text @click="dialog = false">Annuler</v-btn>
+                  >Suprimer</v-btn
+                >
+                <v-btn color="light-blue darken-1" text @click="dialog = false"
+                  >Annuler</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-dialog>
