@@ -20,16 +20,24 @@
                     <v-text-field v-model="name" label="Nom"></v-text-field>
                   </v-col>
                   <v-col cols="11" md="10" lg="6" xl="6">
-                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                    <v-text-field
+                      v-model="firstname"
+                      label="Prénom"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
 
-                <v-text-field @input="changeMesure($event)" label="Nom de la mesure"></v-text-field>
+                <v-text-field
+                  @input="changeMesure($event)"
+                  label="Nom de la mesure"
+                ></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
+              <v-btn class="mr-5" @click="addNewDim" color="primary" small
+                >Ajouter une dimension</v-btn
+              >
             </div>
 
             <v-row>
@@ -43,11 +51,17 @@
                 xl="12"
                 class="card ma-3"
               >
-                <v-card class="d-flex space-between" flat color="rgb(243, 243, 243)">
+                <v-card
+                  class="d-flex space-between"
+                  flat
+                  color="rgb(243, 243, 243)"
+                >
                   <h1>Dimension {{ i + 1 }}</h1>
                   <v-spacer />
 
-                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                  <v-icon large @click="deleteDim(i)"
+                    >mdi-trash-can-outline</v-icon
+                  >
                 </v-card>
                 <v-col xl="12" lg="12">
                   <v-text-field
@@ -62,7 +76,11 @@
                     type="text"
                     @click:append-outer="editDimension(i)"
                   ></v-text-field>
-                  <v-card class="d-flex space-between" color="rgb(243, 243, 243)" flat>
+                  <v-card
+                    class="d-flex space-between"
+                    color="rgb(243, 243, 243)"
+                    flat
+                  >
                     <v-select
                       v-if="table.modifyDim"
                       :items="computedDims"
@@ -70,7 +88,12 @@
                       :value="table.dim"
                       label="Liste des dimensions"
                     ></v-select>
-                    <v-icon v-if="table.modifyDim" class="mx-3" @click="editDimension(i)">mdi-pencil</v-icon>
+                    <v-icon
+                      v-if="table.modifyDim"
+                      class="mx-3"
+                      @click="editDimension(i)"
+                      >mdi-pencil</v-icon
+                    >
                   </v-card>
                 </v-col>
 
@@ -86,28 +109,32 @@
                     :key="j"
                   >
                     <v-card elevation="1" class="d-flex justify-space-between">
-                      <div class="d-flex flex-column align-content-center justify-center flex-wrap">
+                      <div
+                        class="d-flex flex-column align-content-center justify-center flex-wrap"
+                      >
                         <v-icon
                           v-if="j > 0"
                           class="mx-1"
                           @click="upLevel(tablesData, i, j)"
-                        >mdi-arrow-up</v-icon>
+                          >mdi-arrow-up</v-icon
+                        >
                         <v-icon
                           v-if="j != tablesData[i].level.length - 1"
                           class="mx-1"
                           @click="downLevel(tablesData, i, j)"
-                        >mdi-arrow-down</v-icon>
+                          >mdi-arrow-down</v-icon
+                        >
                       </div>
                       <v-text-field
                         v-if="!level.modifyLevel"
                         v-model="level.name"
                         persistent-hint
-                        class="ma-0"
-                        hint="modifier le nom de la dimension"
+                        class="mt-2"
+                        hint="modifier le nom du niveau"
                         append-outer-icon="mdi-close-circle-outline"
                         clearable
                         outlined
-                        label="Nom de la dimension"
+                        :label="'Niveau ' + (j + 1)"
                         type="text"
                         @click:append-outer="editDimensionLevel(i, j)"
                       ></v-text-field>
@@ -120,16 +147,27 @@
                         :value="level.name"
                         :label="'Niveau ' + (j + 1)"
                       ></v-select>
-                      <v-icon
-                        v-if="level.modifyLevel"
-                        class="mx-1"
-                        @click="editDimensionLevel(i, j)"
-                      >mdi-pencil</v-icon>
-                      <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                      <div
+                        class="d-flex flex-column align-content-center justify-center flex-wrap mx-2"
+                      >
+                        <v-icon class="mb-2" @click="deleteLevel(i, j)"
+                          >mdi-trash-can-outline</v-icon
+                        >
+                        <v-icon
+                          v-if="level.modifyLevel"
+                          @click="editDimensionLevel(i, j)"
+                          >mdi-pencil</v-icon
+                        >
+                      </div>
                     </v-card>
                   </v-col>
                   <v-row justify="center">
-                    <v-btn x-small color="#95C35A" class="ma-2 white--text" @click="addLevel(i)">
+                    <v-btn
+                      x-small
+                      color="#95C35A"
+                      class="ma-2 white--text"
+                      @click="addLevel(i)"
+                    >
                       Ajouter un niveau
                       <v-icon right dark>mdi-plus</v-icon>
                     </v-btn>
@@ -157,7 +195,11 @@
         </v-col>
         <!-- Right part Board -->
         <v-col class="board-position ml-8" lg="8" xl="6">
-          <Board :datas="tablesData" :mesure="this.mesure" :refresh="forceRecomputeCounter" />
+          <Board
+            :datas="tablesData"
+            :mesure="this.mesure"
+            :refresh="forceRecomputeCounter"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -483,7 +525,7 @@ export default {
   computed: {
     //data with only the titre of the json file : [titre1, titre2, titre3 ...]
     //type array
-    tableTitre() {
+    tableDim() {
       return this.rawData.map(itemY => {
         return itemY.titre;
       });
@@ -506,10 +548,23 @@ export default {
         return itemTable.dim;
       });
     },
+    levelSelected() {
+      var tablesLevel = [];
+      for (var i = 0; i < this.tablesData.length; i++) {
+        var level = [];
+        console.log(this.tablesData[i].level);
+        this.tablesData[i].level.map(item => {
+          level.push(item.name);
+        });
+
+        tablesLevel.push(level);
+      }
+      return tablesLevel;
+    },
     //Dimensions filtered if already selected
     // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
-      return this.tableTitre.map(item => {
+      return this.tableDim.map(item => {
         return {
           text: item,
           disabled: this.dimSelected.includes(item)
@@ -527,7 +582,7 @@ export default {
         this.tableLevel.map(item => {
           level.push({
             text: item,
-            disabled: this.tablesData[i].level[0].name.includes(item)
+            disabled: this.levelSelected[i].includes(item)
           });
         });
 
