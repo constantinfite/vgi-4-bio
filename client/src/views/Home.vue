@@ -41,7 +41,7 @@
             </div>
 
             <v-row>
-              <!-- Dimensions  -->
+              <!------------- -Dimensions  --------------------------------->
               <v-col
                 v-for="(table, i) in tablesData"
                 :key="i"
@@ -63,45 +63,49 @@
                     >mdi-trash-can-outline</v-icon
                   >
                 </v-card>
-                <v-col xl="4" lg="4">
+                <v-col xl="12" lg="12">
                   <v-text-field
-                    width="50%"
+                    v-if="!table.modifyDim"
                     v-model="table.dim"
                     persistent-hint
                     hint="modifier le nom de la dimension"
-                    :append-outer-icon="focus ? '' : 'mdi-pencil'"
+                    append-outer-icon="mdi-close-circle-outline"
                     clearable
                     outlined
                     label="Nom de la dimension"
                     type="text"
-                    ref="field"
-                    @focus="changeFocus"
-                    @click:append-outer="editDimension"
-                    @blur="focus = false"
+                    @click:append-outer="editDimension(i)"
                   ></v-text-field>
-                  <v-select
-                    :items="computedDims"
-                    @change="changeValueDim($event, i)"
-                    :value="table.dim"
-                    label="Liste des dimensions"
-                  ></v-select>
+                  <v-card
+                    class="d-flex space-between"
+                    color="rgb(243, 243, 243)"
+                    flat
+                  >
+                    <v-select
+                      v-if="table.modifyDim"
+                      :items="computedDims"
+                      @change="changeValueDim($event, i)"
+                      :value="table.dim"
+                      label="Liste des dimensions"
+                    ></v-select>
+                    <v-icon
+                      v-if="table.modifyDim"
+                      class="mx-3"
+                      @click="editDimension(i)"
+                      >mdi-pencil</v-icon
+                    >
+                  </v-card>
                 </v-col>
-                <h2>Niveau</h2>
 
-                <v-combobox
-                  v-model="select"
-                  :items="computedLevels[i]"
-                  label="Selectionner les niveaux"
-                  multiple
-                ></v-combobox>
-                <!-- Levels -->
+                <!-------------- Levels -------------------->
+                <h2>Niveau</h2>
                 <v-row justify="center">
                   <v-col
                     cols="11"
                     md="10"
-                    lg="10"
-                    xl="10"
-                    v-for="(table, j) in tablesData[i].level"
+                    lg="12"
+                    xl="12"
+                    v-for="(level, j) in tablesData[i].level"
                     :key="j"
                   >
                     <v-card elevation="1" class="d-flex justify-space-between">
@@ -117,13 +121,34 @@
                         @click="downLevel(tablesData, i, j)"
                         >mdi-arrow-down</v-icon
                       >
+
+                      <v-text-field
+                        v-if="!table.modifyLevel"
+                        v-model="level"
+                        persistent-hint
+                        hint="modifier le nom de la dimension"
+                        append-outer-icon="mdi-close-circle-outline"
+                        clearable
+                        outlined
+                        label="Nom de la dimension"
+                        type="text"
+                        @click:append-outer="editDimensionLevel(i)"
+                      ></v-text-field>
+
                       <v-select
+                        v-if="table.modifyLevel"
                         class="ml-3 mr-6"
                         :items="computedLevels[i]"
                         @change="changeValueLevel($event, i, j)"
-                        :value="table"
+                        :value="level"
                         :label="'Niveau ' + (j + 1)"
                       ></v-select>
+                      <v-icon
+                        v-if="table.modifyLevel"
+                        class="mx-3"
+                        @click="editDimensionLevel(i)"
+                        >mdi-pencil</v-icon
+                      >
                       <v-icon class="mr-3" @click="deleteLevel(i, j)"
                         >mdi-trash-can-outline</v-icon
                       >
@@ -438,6 +463,8 @@ export default {
     addNewDim() {
       this.tablesData.push({
         dim: "",
+        modifyDim: true,
+        modifyLevel: true,
         level: [""],
         values: [[]]
       });
@@ -461,9 +488,21 @@ export default {
     changeFocus() {
       this.focus = true;
     },
-    editDimension() {
-      this.$refs.field[0].focus();
-      this.focus = true;
+    editDimension(indexDim) {
+      if (this.tablesData[indexDim].modifyDim) {
+        this.tablesData[indexDim].modifyDim = false;
+      } else {
+        this.tablesData[indexDim].modifyDim = true;
+        this.tablesData[indexDim].dim = "";
+      }
+    },
+
+    editDimensionLevel(indexDim) {
+      if (this.tablesData[indexDim].modifyLevel) {
+        this.tablesData[indexDim].modifyLevel = false;
+      } else {
+        this.tablesData[indexDim].modifyLevel = true;
+      }
     },
     upLevel(tableData, indexDim, indexLevel) {
       var element = tableData[indexDim].level[indexLevel];
