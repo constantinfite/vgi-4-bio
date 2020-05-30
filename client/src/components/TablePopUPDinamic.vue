@@ -8,18 +8,30 @@
           :key="i"
           :colspan="data.level.length"
           class="font-weight-medium"
-        >{{ data.dim }}</th>
+        >
+          {{ data.dim }}
+        </th>
         <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
         <tr>
-          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level }}</th>
+          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">
+            {{ level }}
+          </th>
         </tr>
       </thead>
       <!-- add body table -->
       <tbody>
         <!-- fill of values -->
+
         <tr v-for="values in this.test()" :key="values">
-          <td v-for="value in values" :key="value">{{value}}</td>
+          <td
+            v-for="value in values"
+            :key="value"
+            :rowspan="value[1]"
+            class="text-center"
+          >
+            {{ value[0] }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -29,23 +41,23 @@
 export default {
   props: {
     mesure: {
-      type: String
+      type: String,
     },
     datas: {
-      type: Array
+      type: Array,
     },
     arrayOfValues: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
-      Array: []
+      Array: [],
     };
   },
   computed: {
     levels: function() {
-      console.log("levels démare");
+      //console.log("levels démare");
       var levels = [];
       for (var i = 0; i < this.datas.length; i++) {
         for (var j = 0; j < this.datas[i].level.length; j++) {
@@ -55,9 +67,9 @@ export default {
       return levels;
     },
     sortedArray: function() {
-      console.log("sortedArray démare");
+      //console.log("sortedArray démare");
       var arr = this.arrayOfValues.slice(0);
-      console.log(arr.slice());
+      //console.log(arr.slice());
 
       var linked = [];
       for (var linkedInd = 0; linkedInd < arr.length; linkedInd++) {
@@ -196,13 +208,48 @@ export default {
       }
 
       return arr;
-    }
+    },
   },
   methods: {
     test: function() {
-      return this.sortedArray;
-    }
-  }
+      var vueTab = [];
+
+      for (var lignSA = 0; lignSA < this.sortedArray.length; lignSA++) {
+        var lignArr = [];
+        for (var colSA = 0; colSA < this.sortedArray[lignSA].length; colSA++) {
+          lignArr.push([this.sortedArray[lignSA][colSA], 0]);
+        }
+        vueTab.push(lignArr);
+      }
+
+      for (var colVT = 0; colVT < vueTab[0].length; colVT++) {
+        for (var lignVT = 0; lignVT < vueTab.length; ) {
+          const valTest = vueTab[lignVT][colVT][0];
+          var cmpRowSpan = 1;
+          var indexSup = 1;
+          while (
+            lignVT + indexSup < vueTab.length &&
+            vueTab[lignVT + indexSup][colVT][0] == valTest
+          ) {
+            cmpRowSpan++;
+            indexSup++;
+          }
+          vueTab[lignVT][colVT].splice(1, 1, cmpRowSpan);
+          lignVT += indexSup;
+        }
+      }
+      for (var lign = 0; lign < vueTab.length; lign++) {
+        for (var col = 0; col < vueTab[lign].length; col++) {
+          if (vueTab[lign][col][1] == 0) {
+            vueTab[lign].splice(col, 1);
+            col--;
+          }
+        }
+      }
+      //console.log(vueTab);
+      return vueTab;
+    },
+  },
 };
 </script>
 <style scoped>

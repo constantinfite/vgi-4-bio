@@ -8,18 +8,26 @@
           :key="i"
           :colspan="data.level.length"
           class="font-weight-medium"
-        >{{ data.dim }}</th>
+        >
+          {{ data.dim }}
+        </th>
         <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
         <tr>
-          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level }}</th>
+          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">
+            {{ level }}
+          </th>
         </tr>
       </thead>
       <!-- add body table -->
       <tbody>
         <!-- fill of values -->
-        <tr v-for="values in this.arrayOfValues" :key="values">
-          <td v-for="value in values" :key="value">{{value}}</td>
+        <tr
+          v-for="values in this.arrayOfValues"
+          :key="values"
+          class="text-center"
+        >
+          <td v-for="value in values" :key="value">{{ value }}</td>
         </tr>
       </tbody>
     </table>
@@ -29,14 +37,14 @@
 export default {
   props: {
     mesure: {
-      type: String
+      type: String,
     },
     datas: {
-      type: Array
+      type: Array,
     },
     arrayOfValues: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   computed: {
     levels: function() {
@@ -47,8 +55,8 @@ export default {
         }
       }
       return levels;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
