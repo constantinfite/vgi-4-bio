@@ -1,7 +1,13 @@
 //function which take as argument the tablesData(data) and convert in to XML file
 //store the XML file in the upload directory at the root
 
-export default function myDataToXML(datas, mesure, name_firstname) {
+export default function myDataToXML(
+  datas,
+  mesure,
+  name_firstname,
+  HierarchyTab
+) {
+  console.log(HierarchyTab);
   if (datas.length > 0) {
     // if there is a dimesnsion create xml file else display a message in the console
 

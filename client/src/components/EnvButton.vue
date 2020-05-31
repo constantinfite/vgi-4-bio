@@ -28,20 +28,19 @@
           <v-switch dark v-model="dynamic" label="Dynamic Table"></v-switch>
         </v-toolbar>
         <v-col class="board-position ml-8">
-          <v-row justify="center" class="main-row">
+          <v-row justify="center" class="main-row" v-if="!this.dynamic">
             <TablePopUP
               :datas="this.datas"
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
-              v-if="!this.dynamic"
             ></TablePopUP>
           </v-row>
-          <v-row justify="center" class="main-row">
+          <v-row justify="center" class="main-row" v-if="this.dynamic">
             <TablePopUPDinamic
               :datas="this.datas"
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
-              v-if="this.dynamic"
+              @updateHierarchyTab="updateHierarchyTab"
             ></TablePopUPDinamic>
           </v-row>
           <v-row justify="center" class="main-row">
@@ -94,20 +93,33 @@ export default {
     return {
       dialog: false,
       dynamic: false,
+      HierarchyTab: [],
     };
   },
   methods: {
+    updateHierarchyTab(e) {
+      //console.log(e);
+      this.HierarchyTab = e;
+    },
     toXML: function() {
+      this.dynamic = true;
       console.log("XML ok");
-      myDataToXML(this.datas, this.mesure, this.name_firstname);
+      myDataToXML(
+        this.datas,
+        this.mesure,
+        this.name_firstname,
+        this.HierarchyTab
+      );
     },
     toSQL: function() {
+      this.dynamic = true;
       console.log("sql ok");
       myDataToSQL(
         this.datas,
         this.mesure,
         this.arrayOfValues,
-        this.name_firstname
+        this.name_firstname,
+        this.HierarchyTab
       );
     },
     correctArray: function() {

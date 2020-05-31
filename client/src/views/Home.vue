@@ -20,16 +20,24 @@
                     <v-text-field v-model="name" label="Nom"></v-text-field>
                   </v-col>
                   <v-col cols="11" md="10" lg="6" xl="6">
-                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                    <v-text-field
+                      v-model="firstname"
+                      label="Prénom"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
 
-                <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
+                <v-text-field
+                  v-model="mesure"
+                  label="Nom de la mesure"
+                ></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5" @click="addNewDim" color="primary" small>Ajouter une dimension</v-btn>
+              <v-btn class="mr-5" @click="addNewDim" color="primary" small
+                >Ajouter une dimension</v-btn
+              >
             </div>
 
             <v-row align="center">
@@ -43,11 +51,17 @@
                 xl="12"
                 class="card ma-3"
               >
-                <v-card class="mb-3 d-flex space-between" flat color="rgb(243, 243, 243)">
+                <v-card
+                  class="mb-3 d-flex space-between"
+                  flat
+                  color="rgb(243, 243, 243)"
+                >
                   <h1>Dimension {{ i }}</h1>
                   <v-spacer />
 
-                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                  <v-icon large @click="deleteDim(i)"
+                    >mdi-trash-can-outline</v-icon
+                  >
                 </v-card>
                 <v-text-field
                   v-model="table.dim"
@@ -98,12 +112,14 @@
                         v-show="j > 0"
                         class="mx-3"
                         @click="upLevel(tablesData, i, j)"
-                      >mdi-arrow-up</v-icon>
+                        >mdi-arrow-up</v-icon
+                      >
                       <v-icon
                         v-show="j != tablesData[i].level.length - 1"
                         class="mx-3"
                         @click="downLevel(tablesData, i, j)"
-                      >mdi-arrow-down</v-icon>
+                        >mdi-arrow-down</v-icon
+                      >
                       <v-select
                         class="ml-3 mr-6"
                         :items="computedLevels[i]"
@@ -111,7 +127,9 @@
                         :value="table"
                         label="Niveau"
                       ></v-select>
-                      <v-icon class="mr-3" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                      <v-icon class="mr-3" @click="deleteLevel(i, j)"
+                        >mdi-trash-can-outline</v-icon
+                      >
                     </v-card>
                   </v-col>
                 </v-row>
@@ -159,7 +177,7 @@ export default {
   components: {
     EnvButton,
     Board,
-    Video
+    Video,
   },
   data() {
     return {
@@ -170,19 +188,19 @@ export default {
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
-      focus: false
+      focus: false,
     };
   },
 
   methods: {
     updateArrayOfValues(e) {
-      console.log(e);
+      //console.log(e);
       this.arrayOfValues = e;
     },
     addNewDim() {
       this.tablesData.push({
         dim: "",
-        level: [""]
+        level: [""],
       });
     },
     deleteDim(index) {
@@ -217,13 +235,13 @@ export default {
       var element = tableData[indexDim].level[indexLevel];
       tableData[indexDim].level.splice(indexLevel, 1);
       tableData[indexDim].level.splice(indexLevel + 1, 0, element);
-    }
+    },
   },
   computed: {
     //data with only the titre of the json file : [titre1, titre2, titre3 ...]
     //type array
     tableTitre() {
-      return this.rawData.map(itemY => {
+      return this.rawData.map((itemY) => {
         return itemY.titre;
       });
     },
@@ -231,8 +249,8 @@ export default {
     //type array
     tableLevel() {
       var levels = [];
-      this.rawData.map(item =>
-        item.champs.map(level => {
+      this.rawData.map((item) =>
+        item.champs.map((level) => {
           levels.push(level);
         })
       );
@@ -241,17 +259,17 @@ export default {
     //data with all the dimension selected in the v-select
     //type array
     dimSelected() {
-      return this.tablesData.map(itemTable => {
+      return this.tablesData.map((itemTable) => {
         return itemTable.value;
       });
     },
     //Dimensions filtered if already selected
     // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
-      return this.tableTitre.map(item => {
+      return this.tableTitre.map((item) => {
         return {
           text: item,
-          disabled: this.dimSelected.includes(item)
+          disabled: this.dimSelected.includes(item),
         };
       });
     },
@@ -263,10 +281,10 @@ export default {
 
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
-        this.tableLevel.map(item => {
+        this.tableLevel.map((item) => {
           level.push({
             text: item,
-            disabled: this.tablesData[i].level.includes(item)
+            disabled: this.tablesData[i].level.includes(item),
           });
         });
 
@@ -275,8 +293,8 @@ export default {
 
       //console.log(tablesLevel);
       return tablesLevel;
-    }
-  }
+    },
+  },
 };
 </script>
 

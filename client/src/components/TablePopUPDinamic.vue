@@ -333,8 +333,8 @@ export default {
       for (var i = 0; i < hierarchyTab.length; i++) {
         for (var j = 0; j < hierarchyTab[i].length; j++) {
           if (hierarchyTab[i][j][1] == 0) {
-            hierarchyTab[i].splice(j, 1);
-            j--;
+            hierarchyTab.splice(i, 1);
+            i--;
           }
         }
       }
@@ -343,9 +343,9 @@ export default {
     },
     dinamicWthHierarc: function() {
       var dinamicWthHierarc = [];
-
+      var tab = this.hierarchy();
+      this.$emit("updateHierarchyTab", tab);
       if (this.typeHierarchy) {
-        var tab = this.hierarchy();
         for (var i = 0; i < this.dinamicTab().length; i++) {
           dinamicWthHierarc.push(this.dinamicTab()[i].concat(tab[i]));
         }

@@ -2,8 +2,10 @@ export default function myDataToSQL(
   datas,
   mesure,
   arrayOfValues,
-  name_firstname
+  name_firstname,
+  HierarchyTab
 ) {
+  console.log(HierarchyTab);
   if (datas.length > 0) {
     // if there is a dimesnsion create sql file else display a message in the console
 
