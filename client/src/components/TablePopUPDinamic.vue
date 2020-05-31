@@ -257,7 +257,7 @@ export default {
       for (var nbLign = 0; nbLign < tab.length; nbLign++) {
         var lignFT = [];
         for (var colFT = 0; colFT < this.datas.length; colFT++) {
-          lignFT.push(["", 0]);
+          lignFT.push(["", 0, 0]);
         }
         hierarchyTab.push(lignFT);
       }
@@ -303,26 +303,31 @@ export default {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Onto",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
+                col + endLev,
               ]);
             } else if (NoCH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Covering",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
+                col + endLev,
               ]);
             } else if (NoSFH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-strick Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
+                col + endLev,
               ]);
             } else if (MtMFH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Many-to-Many Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
+                col + endLev,
               ]);
             } else if (hierarchyTab[lignTAB][indexdim][0] == "") {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Ordinary",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
+                col + endLev,
               ]);
             }
           }
@@ -333,8 +338,8 @@ export default {
       for (var i = 0; i < hierarchyTab.length; i++) {
         for (var j = 0; j < hierarchyTab[i].length; j++) {
           if (hierarchyTab[i][j][1] == 0) {
-            hierarchyTab.splice(i, 1);
-            i--;
+            hierarchyTab[i].splice(j, 1);
+            j--;
           }
         }
       }
