@@ -36,7 +36,7 @@
 
         <!-- add body table -->
         <tbody>
-          <!-- fill of values  :rowspan="value[1]" -->
+          <!-- fill of values -->
 
           <tr v-for="values in this.dinamicWthHierarc()" :key="values">
             <td
@@ -52,12 +52,7 @@
       </table>
     </v-row>
     <v-row>
-      <v-switch
-        v-model="typeHierarchy"
-        label="Type of hierarchy"
-        input-value="true"
-      >
-      </v-switch>
+      <v-switch v-model="typeHierarchy" label="Type of hierarchy"> </v-switch>
     </v-row>
   </div>
 </template>

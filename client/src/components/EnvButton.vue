@@ -6,18 +6,26 @@
       small
       color="light-blue accent-3"
       class="ma-2 white--text"
-      @click="dialog= true"
+      @click="dialog = true"
     >
       Envoyer
       <v-icon right dark>mdi-send</v-icon>
     </v-btn>
 
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <v-card>
-        <v-toolbar dark color="primary">
+        <v-toolbar flat color="primary" align="center" single-line="true">
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
-          </v-btn>Là on a un truc
+          </v-btn>
+          <v-spacer></v-spacer>
+
+          <v-switch dark v-model="dynamic" label="Dynamic Table"></v-switch>
         </v-toolbar>
         <v-col class="board-position ml-8">
           <v-row justify="center" class="main-row">
@@ -25,6 +33,7 @@
               :datas="this.datas"
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
+              v-if="!this.dynamic"
             ></TablePopUP>
           </v-row>
           <v-row justify="center" class="main-row">
@@ -32,19 +41,23 @@
               :datas="this.datas"
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
+              v-if="this.dynamic"
             ></TablePopUPDinamic>
           </v-row>
           <v-row justify="center" class="main-row">
             <v-btn
               color="light-blue darken-1"
               text
-              @click="                    
-                    toXML();
-                    toSQL();
-                    dialog = false;
-                  "
-            >Envoyer</v-btn>
-            <v-btn color="light-gray darken-1" text @click="dialog = false">Annuler</v-btn>
+              @click="
+                toXML();
+                toSQL();
+                dialog = false;
+              "
+              >Envoyer</v-btn
+            >
+            <v-btn color="light-gray darken-1" text @click="dialog = false"
+              >Annuler</v-btn
+            >
           </v-row>
         </v-col>
       </v-card>
@@ -61,25 +74,26 @@ import myDataToSQL from "@/assets/js/myDataToSQL.js";
 export default {
   components: {
     TablePopUP,
-    TablePopUPDinamic
+    TablePopUPDinamic,
   },
   props: {
     mesure: {
-      type: String
+      type: String,
     },
     datas: {
-      type: Array
+      type: Array,
     },
     arrayOfValues: {
-      type: Array
+      type: Array,
     },
     name_firstname: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      dynamic: false,
     };
   },
   methods: {
@@ -103,7 +117,7 @@ export default {
         }
       }
       return this.arrayOfValues;
-    }
-  }
+    },
+  },
 };
 </script>
