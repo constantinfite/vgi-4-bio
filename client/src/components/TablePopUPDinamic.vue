@@ -29,7 +29,7 @@
               v-for="(level, i) in levels"
               :key="i"
             >
-              {{ level }}
+              {{ level.name }}
             </th>
           </tr>
         </thead>
