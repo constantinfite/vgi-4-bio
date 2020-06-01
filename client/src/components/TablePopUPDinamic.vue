@@ -60,18 +60,18 @@
 export default {
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
+      type: Array
     },
     arrayOfValues: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
-      typeHierarchy: false,
+      typeHierarchy: false
     };
   },
   computed: {
@@ -195,7 +195,7 @@ export default {
       }
 
       return arr;
-    },
+    }
   },
   methods: {
     dinamicTab: function(withDelVal = true) {
@@ -303,31 +303,31 @@ export default {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Onto",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev,
+                col + endLev
               ]);
             } else if (NoCH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Covering",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev,
+                col + endLev
               ]);
             } else if (NoSFH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-strick Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev,
+                col + endLev
               ]);
             } else if (MtMFH) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Many-to-Many Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev,
+                col + endLev
               ]);
             } else if (hierarchyTab[lignTAB][indexdim][0] == "") {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Ordinary",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev,
+                col + endLev
               ]);
             }
           }
@@ -358,8 +358,8 @@ export default {
         dinamicWthHierarc = this.dinamicTab();
       }
       return dinamicWthHierarc;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

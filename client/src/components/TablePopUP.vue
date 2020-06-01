@@ -37,14 +37,14 @@
 export default {
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
+      type: Array
     },
     arrayOfValues: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   computed: {
     levels: function() {
@@ -55,8 +55,8 @@ export default {
         }
       }
       return levels;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

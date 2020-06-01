@@ -1,12 +1,6 @@
 <template>
   <nav>
-    <v-app-bar
-      color="#fff"
-      elevation="1"
-      height="120"
-      app
-      class="app-bar"
-    >
+    <v-app-bar color="#fff" elevation="1" height="120" app class="app-bar">
       <v-toolbar-title
         ><v-img
           alt="Vuetify Logo"
@@ -74,6 +68,5 @@ export default {
 .app-bar {
   padding: 0 10%;
   display: flex;
-  
 }
 </style>

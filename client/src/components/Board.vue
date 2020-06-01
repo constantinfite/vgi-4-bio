@@ -1,6 +1,6 @@
 <template>
   <div justify="center" v-if="datas.length > 0 || this.mesure.length > 0">
-    <h1>Board</h1>
+    <h2>Board</h2>
     <!-- add table -->
     <table>
       <!-- add head table -->
@@ -52,7 +52,7 @@
         <td :colspan="this.levels.length + 1" align="center">
           <v-btn
             x-small
-            color="light-blue accent-3"
+            color="#95C35A"
             class="ma-2 white--text"
             @click="
               insertTab();
@@ -67,7 +67,7 @@
 
           <v-btn
             x-small
-            color="red accent-3"
+            color="#c61469"
             class="ma-2 white--text"
             @click="
               insertTab();
@@ -75,8 +75,10 @@
               insertTab();
             "
             :disabled="nbline < 4"
-            >Suprimer une ligne</v-btn
           >
+            Suprimer une ligne
+            <v-icon right dark>mdi-minus</v-icon>
+          </v-btn>
           <!-- add v-dialog to secure the lign deleting -->
           <v-dialog v-model="dialog" persistent max-width="350">
             <v-card>
@@ -115,14 +117,14 @@
 export default {
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
+      type: Array
     },
     refresh: {
-      type: Number,
-    },
+      type: Number
+    }
   },
   computed: {
     levels: function() {
@@ -134,13 +136,13 @@ export default {
         }
       }
       return levels;
-    },
+    }
   },
   data() {
     return {
       dialog: false,
       nbline: 3,
-      arrayOfValues: [],
+      arrayOfValues: []
     };
   },
   methods: {
@@ -172,8 +174,8 @@ export default {
         this.arrayOfValues.push(lign_value);
       }
       this.$emit("updateArrayOfValues", this.arrayOfValues);
-    },
-  },
+    }
+  }
 };
 </script>
 

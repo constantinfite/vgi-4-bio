@@ -12,12 +12,7 @@
     </v-container>
 
     <v-divider class="my-8"></v-divider>
-    <v-container id="form">
-      <v-row justify="center">
-        <h1>Formulaire</h1>
-      </v-row>
-    </v-container>
-    <v-container fluid class="main">
+    <v-container fluid class="main" id="form">
       <v-row justify="center" class="main-row">
         <!-- Left part form -->
 
@@ -26,6 +21,7 @@
             <!-- Select Name First_Name-->
             <v-row align="center" justify="start">
               <v-col cols="11" md="12" lg="12" xl="12">
+                <v-row jusify="center"><h2>Formulaire</h2></v-row>
                 <v-row>
                   <v-col cols="11" md="10" lg="6" xl="6">
                     <v-text-field v-model="name" label="Nom"></v-text-field>
@@ -49,7 +45,7 @@
               <v-btn
                 class="mr-5 white--text"
                 @click="addNewDim"
-                color="#EEb700"
+                color="#EE8700"
                 small
                 >Ajouter une dimension
                 <v-icon right dark>mdi-plus</v-icon></v-btn
@@ -197,7 +193,7 @@
         <v-col
           class="board-position ml-8"
           lg="8"
-          xl="6"
+          xl="8"
           v-if="this.tablesData.length > 0 || this.mesure.length > 0"
         >
           <v-row justify="center" class="main-row">
@@ -208,7 +204,7 @@
               @updateArrayOfValues="updateArrayOfValues"
             />
           </v-row>
-          <v-row justify="center" class="main-row">
+          <v-row justify="center" class="mt-3">
             <EnvButton
               :datas="this.tablesData"
               :mesure="this.mesure"
@@ -237,7 +233,7 @@ export default {
     EnvButton,
     Board,
     Video,
-    Explanation,
+    Explanation
   },
   data() {
     return {
@@ -248,7 +244,7 @@ export default {
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
-      focus: false,
+      focus: false
     };
   },
 
@@ -262,7 +258,7 @@ export default {
         dim: "",
         modifyDim: true,
         level: [{ name: "", modifyLevel: true }],
-        values: [[]],
+        values: [[]]
       });
     },
     deleteDim(index) {
@@ -310,13 +306,13 @@ export default {
       var element = tableData[indexDim].level[indexLevel];
       tableData[indexDim].level.splice(indexLevel, 1);
       tableData[indexDim].level.splice(indexLevel + 1, 0, element);
-    },
+    }
   },
   computed: {
     //data with only the titre of the json file : [titre1, titre2, titre3 ...]
     //type array
     tableDim() {
-      return this.rawData.map((itemY) => {
+      return this.rawData.map(itemY => {
         return itemY.titre;
       });
     },
@@ -324,8 +320,8 @@ export default {
     //type array
     tableLevel() {
       var levels = [];
-      this.rawData.map((item) =>
-        item.champs.map((level) => {
+      this.rawData.map(item =>
+        item.champs.map(level => {
           levels.push(level);
         })
       );
@@ -334,7 +330,7 @@ export default {
     //data with all the dimension selected in the v-select
     //type array
     dimSelected() {
-      return this.tablesData.map((itemTable) => {
+      return this.tablesData.map(itemTable => {
         return itemTable.dim;
       });
     },
@@ -343,7 +339,7 @@ export default {
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
         console.log(this.tablesData[i].level);
-        this.tablesData[i].level.map((item) => {
+        this.tablesData[i].level.map(item => {
           level.push(item.name);
         });
 
@@ -354,10 +350,10 @@ export default {
     //Dimensions filtered if already selected
     // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
-      return this.tableDim.map((item) => {
+      return this.tableDim.map(item => {
         return {
           text: item,
-          disabled: this.dimSelected.includes(item),
+          disabled: this.dimSelected.includes(item)
         };
       });
     },
@@ -369,10 +365,10 @@ export default {
 
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
-        this.tableLevel.map((item) => {
+        this.tableLevel.map(item => {
           level.push({
             text: item,
-            disabled: this.levelSelected[i].includes(item),
+            disabled: this.levelSelected[i].includes(item)
           });
         });
 
@@ -381,8 +377,8 @@ export default {
 
       //console.log(tablesLevel);
       return tablesLevel;
-    },
-  },
+    }
+  }
 };
 </script>
 

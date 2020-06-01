@@ -43,6 +43,5 @@ export default {};
   font-size: 20px;
 }
 .title-heading span {
-  
 }
 </style>
