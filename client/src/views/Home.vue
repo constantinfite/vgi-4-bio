@@ -1,16 +1,27 @@
 <template>
   <div>
-    <v-container>
+    <div id="home">
+      <Explanation />
+    </div>
+
+    <v-divider class="my-8"></v-divider>
+    <v-container id="video">
       <v-row justify="center">
         <Video />
       </v-row>
     </v-container>
 
     <v-divider class="my-8"></v-divider>
+    <v-container id="form">
+      <v-row justify="center">
+        <h1>Formulaire</h1>
+      </v-row>
+    </v-container>
     <v-container fluid class="main">
       <v-row justify="center" class="main-row">
         <!-- Left part form -->
-        <v-col lg="3" xl="6" class="colonne">
+
+        <v-col lg="3" xl="3" class="colonne">
           <v-form>
             <!-- Select Name First_Name-->
             <v-row align="center" justify="start">
@@ -35,8 +46,13 @@
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5" @click="addNewDim" color="primary" small
-                >Ajouter une dimension</v-btn
+              <v-btn
+                class="mr-5 white--text"
+                @click="addNewDim"
+                color="#EEb700"
+                small
+                >Ajouter une dimension
+                <v-icon right dark>mdi-plus</v-icon></v-btn
               >
             </div>
 
@@ -211,13 +227,15 @@
 
 import Board from "@/components/Board.vue";
 import Video from "@/components/Video.vue";
+import Explanation from "@/components/Explanation.vue";
 import donnee from "../Choix.json";
 
 export default {
   name: "Home",
   components: {
     Board,
-    Video
+    Video,
+    Explanation
   },
   data() {
     return {

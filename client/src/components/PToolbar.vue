@@ -1,14 +1,21 @@
 <template>
   <nav>
-    <v-app-bar color="transparent" elevation="0" height="150" class="app-bar">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        src="../assets/logo_VGI4Bio.png"
-        transition="scale-transition"
-        width="150px"
-      />
+    <v-app-bar
+      color="#fff"
+      elevation="1"
+      height="120"
+      app
+      class="app-bar"
+    >
+      <v-toolbar-title
+        ><v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="../assets/logo_VGI4Bio.png"
+          transition="scale-transition"
+          width="120px"
+      /></v-toolbar-title>
 
       <v-spacer />
       <div class="d-none d-md-block">
@@ -42,15 +49,15 @@ export default {
       boutons: [
         {
           text: "Accueil",
-          tag: "#parcours"
+          tag: "#home"
         },
         {
           text: "Vidéo",
-          tag: "#experience"
+          tag: "#video"
         },
         {
           text: "Questionnaire",
-          tag: "#avis"
+          tag: "#form"
         }
       ]
     };
@@ -66,5 +73,7 @@ export default {
 <style>
 .app-bar {
   padding: 0 10%;
+  display: flex;
+  
 }
 </style>
