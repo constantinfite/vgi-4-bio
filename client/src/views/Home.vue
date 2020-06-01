@@ -39,7 +39,7 @@
                 </v-row>
 
                 <v-text-field
-                  @input="changeMesure($event)"
+                  v-model="mesure"
                   label="Nom de la mesure"
                 ></v-text-field>
               </v-col>
@@ -191,31 +191,31 @@
                 </v-row>
               </v-col>
             </v-row>
-
-            <!-- Send data to XML  -->
-            <v-row justify="center">
-              <v-btn
-                small
-                color="light-blue accent-3"
-                class="ma-2 white--text"
-                @click="
-                  myDataToXML(tablesData);
-                  myDataToSQL(tablesData);
-                "
-              >
-                Envoyer
-                <v-icon right dark>mdi-send</v-icon>
-              </v-btn>
-            </v-row>
           </v-form>
         </v-col>
         <!-- Right part Board -->
-        <v-col class="board-position ml-8" lg="8" xl="6">
-          <Board
-            :datas="tablesData"
-            :mesure="this.mesure"
-            :refresh="forceRecomputeCounter"
-          />
+        <v-col
+          class="board-position ml-8"
+          lg="8"
+          xl="6"
+          v-if="this.tablesData.length > 0 || this.mesure.length > 0"
+        >
+          <v-row justify="center" class="main-row">
+            <Board
+              :mesure="mesure"
+              :datas="tablesData"
+              :refresh="forceRecomputeCounter"
+              @updateArrayOfValues="updateArrayOfValues"
+            />
+          </v-row>
+          <v-row justify="center" class="main-row">
+            <EnvButton
+              :datas="this.tablesData"
+              :mesure="this.mesure"
+              :arrayOfValues="arrayOfValues"
+              :name_firstname="this.name + '_' + this.firstname"
+            />
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -226,6 +226,7 @@
 // @ is an alias to /src
 
 import Board from "@/components/Board.vue";
+import EnvButton from "@/components/EnvButton.vue";
 import Video from "@/components/Video.vue";
 import Explanation from "@/components/Explanation.vue";
 import donnee from "../Choix.json";
@@ -233,264 +234,35 @@ import donnee from "../Choix.json";
 export default {
   name: "Home",
   components: {
+    EnvButton,
     Board,
     Video,
-    Explanation
+    Explanation,
   },
   data() {
     return {
       rawData: donnee.Tables, //the entire data of the json file
-      mesure: {
-        name: "",
-        values: []
-      }, // mesure typed in the v-select mesure
+      mesure: "", // mesure typed in the v-select mesure
       tablesData: [], // a array of the values fill in the form [{dim1,[level1,level2]},{dim2,[level1,level2]} ...]
+      arrayOfValues: [],
       name: "",
       firstname: "",
       forceRecomputeCounter: 0, //just a data used to refresh a computed data
-      focus: false
+      focus: false,
     };
   },
+
   methods: {
-    //function which take as argument the tablesData(data) and convert in to XML file
-    //store the XML file in the upload directory at the root
-    myDataToXML(value1) {
-      if (value1.length > 0) {
-        // if there is a dimesnsion create xml file else display a message in the console
-
-        // create var file which is the file content
-        var file =
-          `<?xml version="1.0"?>\n\n` +
-          `<Schema name="DWH">\n` +
-          `\t<Cube name="Cube" defaultMeasure="new">\n\n\n` +
-          `\t\t<Table name="${this.mesure.name}" />\n\n`;
-
-        // the for loop allow the parcour of value in order to complete the var file
-        for (var i = 0; i < value1.length; i++) {
-          file += `\t\t\t<Dimension name="${value1[i].dim}" foreignKey="${value1[i].dim}_id">\n`;
-          file += `\t\t\t\t<Hierarchy hasAll="true" primaryKey="${value1[i].dim}_id">\n`;
-          file += `\t\t\t\t\t<Table name="${value1[i].dim}" />\n`;
-
-          for (var j = 0; j < value1[i].level.length; j++) {
-            file += `\t\t\t\t\t\t<Level name="${value1[i].level[j]}" column="${value1[i].level[j]}" uniqueMembers="false" />\n`;
-          }
-
-          file += `\t\t\t\t</Hierarchy>\n`;
-          file += `\t\t\t</Dimension>\n\n`;
-        }
-
-        file += `\t\t<Measure name="${this.mesure.name}" column="${this.mesure.name}" aggregator="avg" formatString="#.#"/>\n`;
-        file += `\t</Cube>\n`;
-        file += `</Schema>\n`;
-
-        // create a Blob var which content the var file and arrage it as a xml file
-        const blob = new Blob([file], { type: "text/xml" });
-
-        // create a var which will be send by the "fetch".
-        // it create via the blob var the name we have from the form and the date, and with an id for the API
-        var fd = new FormData();
-        fd.append(
-          "xml",
-          blob,
-          this.name +
-            "_" +
-            this.firstname +
-            "_" +
-            (new Date().getMonth() + 1) +
-            "-" +
-            new Date().getDate() +
-            "-" +
-            (new Date().getYear() + 1900) +
-            "_" +
-            new Date().getHours() +
-            "-" +
-            new Date().getMinutes() +
-            ".xml"
-        );
-
-        fetch("http://localhost:4000/api/xml", {
-          method: "POST",
-          body: fd
-        })
-          // display in the console the responce of the fetch
-          .then(response => console.log(response))
-          // if we have an error with the fetch it display it
-          .catch(function(error) {
-            console.log(
-              "Il y a eu un problème avec l'opération fetch: " + error.message
-            );
-          });
-      } else {
-        console.log("auccune dimenssion ne sont écrite");
-      }
+    updateArrayOfValues(e) {
+      //console.log(e);
+      this.arrayOfValues = e;
     },
-
-    myDataToSQL(value1) {
-      if (value1.length > 0) {
-        // if there is a dimesnsion create sql file else display a message in the console
-
-        // create multiple var which will use to create the var file
-        // we create multiple var to use the for loop once and maque the read easy
-        var Tables = "";
-        var linkTable =
-          `CREATE TABLE IF NOT EXISTS ${this.mesure.name
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")} (\n` +
-          `\t${this.mesure.name
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")} INTEGER,\n`;
-        var allID = "";
-
-        for (var i = 0; i < value1.length; i++) {
-          Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")} (\n`;
-          Tables += `\t${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}_ID SERIAL,\n`;
-
-          for (var j = 0; j < value1[i].level.length; j++) {
-            Tables += `\t${value1[i].level[j]
-              .toUpperCase()
-              .replace(/[^a-zA-Z0-9]/g, "_")} TEXT,\n`;
-          }
-
-          Tables += `\tPRIMARY KEY (${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}_ID)\n`;
-          Tables += `);\n`;
-
-          linkTable += `\t${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}_ID INTEGER REFERENCES ${value1[
-            i
-          ].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}(${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}_ID),\n`;
-
-          allID += `${value1[i].dim
-            .toUpperCase()
-            .replace(/[^a-zA-Z0-9]/g, "_")}_ID,`;
-        }
-
-        linkTable += `\tPRIMARY KEY (${allID.slice(0, -1)})\n`;
-        linkTable += `);\n\n`;
-
-        // create var file which is the file content
-        var file = Tables + linkTable;
-
-        /*
-          // if we use value insertion we must replace the loop up for the one down
-          // we have to create a tab of the insertion values !!! we call it "insertTab"
-          
-          var insert = ''
-          var Tables = ''
-          var linkTable =   `CREATE TABLE IF NOT EXISTS ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`+
-                            `\t${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} INTEGER,\n`
-          var allID = ''
-          var allIDInsert = ''
-
-          for(var i = 0; i < value1.length; i++){
-
-            insert += `INSERT INTO ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}`
-            
-            Tables += `CREATE TABLE IF NOT EXISTS ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} (\n`
-            Tables += `\t${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID SERIAL,\n`
-
-            for(var j = 0; j < value1[i].level.length; j++){
-
-              Tables += `\t${value1[i].level[j].toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')} TEXT,\n`
-
-              insert += `${value1[i].level[j].toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')},`
-
-              
-
-            }
-
-            insert = insert.slice(0, -1) + `)  VALUES (`
-
-            for(var k = 0; k < (insertTab.length - 1); k++){
-
-              insert += `'$(insertTab[k]',`
-
-            }
-
-            insert = insert.slice(0, -1) + ');\n' 
-
-            allIDInsert += `(SELECT MAX(${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID) FROM ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}),`
-
-            Tables += `\tPRIMARY KEY (${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID)\n`
-            Tables += `);\n`
-
-            linkTable += `\t${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID INTEGER REFERENCES ${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID),\n`
-
-            allID += `${value1[i].dim.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}_ID,`
-
-          }
-
-          linkTable += `\tPRIMARY KEY (${allID.slice(0, -1)})\n`
-          linkTable += `);\n\n`
-
-          insert += `INSERT INTO ${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')}(${this.mesure.toUpperCase().replace(/[^a-zA-Z0-9]/g,'_')},${allID.slice(0, -1)}) VALUES (insertTab[insertTab.length - 1], ${allIDInsert.slice(0, -1)});\n\n`
-          
-
-          var file = Tables + linkTable + insert
-        
-        */
-
-        // create a Blob var which content the var file and arrage it as a xml file
-        const blob = new Blob([file], { type: "text/sql" });
-
-        // create a var which will be send by the "fetch".
-        // it create via the blob var the name we have from the form and the date, and with an id for the API
-        var fd = new FormData();
-        fd.append(
-          "sql",
-          blob,
-          this.name +
-            "_" +
-            this.firstname +
-            "_" +
-            (new Date().getMonth() + 1) +
-            "-" +
-            new Date().getDate() +
-            "-" +
-            (new Date().getYear() + 1900) +
-            "_" +
-            new Date().getHours() +
-            "-" +
-            new Date().getMinutes() +
-            ".sql"
-        );
-
-        fetch("http://localhost:4000/api/sql", {
-          method: "POST",
-          body: fd
-        })
-          // display in the console the responce of the fetch
-          .then(response => console.log(response))
-          // if we have an error with the fetch it display it
-          .catch(function(error) {
-            console.log(
-              "Il y a eu un problème avec l'opération fetch: " + error.message
-            );
-          });
-      } else {
-        console.log("auccune dimenssion ne sont écrite");
-      }
-    },
-    changeMesure(value) {
-      this.mesure.name = value;
-    },
-
     addNewDim() {
       this.tablesData.push({
         dim: "",
         modifyDim: true,
         level: [{ name: "", modifyLevel: true }],
-        values: [[]]
+        values: [[]],
       });
     },
     deleteDim(index) {
@@ -538,13 +310,13 @@ export default {
       var element = tableData[indexDim].level[indexLevel];
       tableData[indexDim].level.splice(indexLevel, 1);
       tableData[indexDim].level.splice(indexLevel + 1, 0, element);
-    }
+    },
   },
   computed: {
     //data with only the titre of the json file : [titre1, titre2, titre3 ...]
     //type array
     tableDim() {
-      return this.rawData.map(itemY => {
+      return this.rawData.map((itemY) => {
         return itemY.titre;
       });
     },
@@ -552,8 +324,8 @@ export default {
     //type array
     tableLevel() {
       var levels = [];
-      this.rawData.map(item =>
-        item.champs.map(level => {
+      this.rawData.map((item) =>
+        item.champs.map((level) => {
           levels.push(level);
         })
       );
@@ -562,7 +334,7 @@ export default {
     //data with all the dimension selected in the v-select
     //type array
     dimSelected() {
-      return this.tablesData.map(itemTable => {
+      return this.tablesData.map((itemTable) => {
         return itemTable.dim;
       });
     },
@@ -571,7 +343,7 @@ export default {
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
         console.log(this.tablesData[i].level);
-        this.tablesData[i].level.map(item => {
+        this.tablesData[i].level.map((item) => {
           level.push(item.name);
         });
 
@@ -582,10 +354,10 @@ export default {
     //Dimensions filtered if already selected
     // [{titre1, false}, {titre2, true}, {titre3, true} ...]
     computedDims() {
-      return this.tableDim.map(item => {
+      return this.tableDim.map((item) => {
         return {
           text: item,
-          disabled: this.dimSelected.includes(item)
+          disabled: this.dimSelected.includes(item),
         };
       });
     },
@@ -597,10 +369,10 @@ export default {
 
       for (var i = 0; i < this.tablesData.length; i++) {
         var level = [];
-        this.tableLevel.map(item => {
+        this.tableLevel.map((item) => {
           level.push({
             text: item,
-            disabled: this.levelSelected[i].includes(item)
+            disabled: this.levelSelected[i].includes(item),
           });
         });
 
@@ -609,8 +381,8 @@ export default {
 
       //console.log(tablesLevel);
       return tablesLevel;
-    }
-  }
+    },
+  },
 };
 </script>
 
