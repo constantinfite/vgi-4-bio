@@ -51,9 +51,9 @@
       <tfoot>
         <td :colspan="this.levels.length + 1" align="center">
           <v-btn
-            x-small
-            color="#95C35A"
-            class="ma-2 white--text"
+            small
+            color="#EE8700"
+            class="ma-4 white--text"
             @click="
               insertTab();
               addLign();
@@ -66,9 +66,9 @@
           </v-btn>
 
           <v-btn
-            x-small
+            small
             color="#c61469"
-            class="ma-2 white--text"
+            class="ma-4 white--text"
             @click="
               insertTab();
               verifLastLign();
@@ -76,7 +76,7 @@
             "
             :disabled="nbline < 4"
           >
-            Suprimer une ligne
+            Supprimer une ligne
             <v-icon right dark>mdi-minus</v-icon>
           </v-btn>
           <!-- add v-dialog to secure the lign deleting -->
@@ -180,9 +180,6 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  border: 2px solid green;
-}
 .v-text-field {
   background-color: transparent;
 }
@@ -196,7 +193,7 @@ tfoot td {
   border: none;
 }
 th {
-  background-color: #1976d2;
+  background-color: #c61469;
   color: white;
   border: 2px solid black;
   cursor: pointer;

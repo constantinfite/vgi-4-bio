@@ -363,9 +363,6 @@ export default {
 };
 </script>
 <style scoped>
-.line {
-  border: 2px solid green;
-}
 
 table {
   border-collapse: collapse;
@@ -376,7 +373,7 @@ tfoot td {
   border: none;
 }
 th {
-  background-color: #1976d2;
+  background-color: #c61469;
   color: white;
   border: 2px solid black;
   cursor: pointer;

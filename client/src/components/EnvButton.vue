@@ -3,9 +3,8 @@
     <!-- Send data to XML  -->
     <v-btn
       v-if="datas.length > 0 || this.mesure.name.length > 0"
-      small
-      color="#EE8700"
-      class="ma-2 white--text"
+      color="#95C35A"
+      class="ma-2 white--text font-weight-bold"
       @click="dialog = true"
     >
       Envoyer
@@ -19,7 +18,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar flat color="primary" align="center" single-line="true">
+        <v-toolbar flat color="#1D1D1D" align="center" single-line="true">
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -45,17 +44,20 @@
           </v-row>
           <v-row justify="center" class="main-row">
             <v-btn
-              color="light-blue darken-1"
-              text
+              color="#95C35A"
+              class="ma-4 white--text font-weight-bold"
               @click="
                 toXML();
                 toSQL();
                 dialog = false;
               "
-              >Envoyer</v-btn
+              >Envoyer<v-icon right dark>mdi-send</v-icon></v-btn
             >
-            <v-btn color="light-gray darken-1" text @click="dialog = false"
-              >Annuler</v-btn
+            <v-btn
+              class="ma-4 white--text font-weight-bold"
+              color="#c61469"
+              @click="dialog = false"
+              >Annuler <v-icon right>mdi-close</v-icon></v-btn
             >
           </v-row>
         </v-col>

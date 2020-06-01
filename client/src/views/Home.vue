@@ -43,10 +43,9 @@
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
               <v-btn
-                class="mr-5 white--text"
+                class="mr-5 white--text font-weight-bold"
                 @click="addNewDim"
-                color="#EE8700"
-                small
+                color="#95C35A"
                 >Ajouter une dimension
                 <v-icon right dark>mdi-plus</v-icon></v-btn
               >
@@ -175,8 +174,8 @@
                   </v-col>
                   <v-row justify="center">
                     <v-btn
-                      x-small
-                      color="#95C35A"
+                      small
+                      color="#EE8700"
                       class="ma-2 white--text"
                       @click="addLevel(i)"
                     >
@@ -196,7 +195,7 @@
           xl="8"
           v-if="this.tablesData.length > 0 || this.mesure.length > 0"
         >
-          <v-row justify="center" class="main-row">
+          <v-row justify="center" class="board-position">
             <Board
               :mesure="mesure"
               :datas="tablesData"
@@ -384,25 +383,23 @@ export default {
 
 <style>
 .board-position {
-  position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 120px;
 }
 
 .main-row {
   align-items: flex-start;
+  position: relative;
 }
 
 .card {
   background-color: rgb(243, 243, 243);
 }
-
-.v-select-item__disabled {
-  color: red;
-}
-
 .main {
   margin-left: 0;
   margin-right: 0;
+}
+.col-right {
+  position: relative;
 }
 </style>

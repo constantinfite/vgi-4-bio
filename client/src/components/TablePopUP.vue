@@ -73,7 +73,7 @@ tfoot td {
   border: none;
 }
 th {
-  background-color: #1976d2;
+  background-color: #c61469;
   color: white;
   border: 2px solid black;
   cursor: pointer;
