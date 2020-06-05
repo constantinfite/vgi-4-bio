@@ -1,4 +1,4 @@
-<template>
+<template lg="10" xl="10">
   <div justify="center">
     <v-row>
       <table>
@@ -9,9 +9,7 @@
             :key="data"
             :colspan="data.level.length"
             class="font-weight-medium"
-          >
-            {{ data.dim }}
-          </th>
+          >{{ data.dim }}</th>
           <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
           <th
@@ -19,18 +17,10 @@
             :key="dim"
             rowspan="2"
             class="font-weight-medium"
-          >
-            {{ dim }}
-          </th>
+          >{{ dim }}</th>
 
           <tr>
-            <th
-              class="font-weight-medium"
-              v-for="(level, i) in levels"
-              :key="i"
-            >
-              {{ level.name }}
-            </th>
+            <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level.name }}</th>
           </tr>
         </thead>
 
@@ -44,15 +34,13 @@
               :key="value"
               :rowspan="value[1]"
               class="text-center"
-            >
-              {{ value[0] }}
-            </td>
+            >{{ value[0] }}</td>
           </tr>
         </tbody>
       </table>
     </v-row>
     <v-row>
-      <v-switch v-model="typeHierarchy" label="Type of hierarchy"> </v-switch>
+      <v-switch v-model="typeHierarchy" label="Type of hierarchy"></v-switch>
     </v-row>
   </div>
 </template>
@@ -237,7 +225,6 @@ export default {
           }
         }
       }
-      //console.log(vueTab);
       return vueTab;
     },
     dimHieTab: function() {
@@ -271,7 +258,6 @@ export default {
             var MtMFH = false;
 
             var index = lignTAB + tab[lignTAB][tab[lignTAB].length - 1][1];
-            //index = index < tab.length ? index : tab.length;
             for (var lign1 = lignTAB; lign1 < index; lign1++) {
               if (
                 tab[lign1][this.datas[indexdim].level.length - 1 + endLev][0] ==
@@ -298,26 +284,41 @@ export default {
                 MtMFH = true;
               }
             }
-
-            if (NoOH) {
+            if (
+              NoOH &&
+              (hierarchyTab[lignTAB][indexdim][0] == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim][0] == "")
+            ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Onto",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
                 col + endLev
               ]);
-            } else if (NoCH) {
+            } else if (
+              NoCH &&
+              (hierarchyTab[lignTAB][indexdim][0] == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim][0] == "")
+            ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-Covering",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
                 col + endLev
               ]);
-            } else if (NoSFH) {
+            } else if (
+              NoSFH &&
+              (hierarchyTab[lignTAB][indexdim][0] == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim][0] == "")
+            ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Non-strick Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
                 col + endLev
               ]);
-            } else if (MtMFH) {
+            } else if (
+              MtMFH &&
+              (hierarchyTab[lignTAB][indexdim][0] == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim][0] == "")
+            ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, [
                 "Many-to-Many Fact",
                 tab[lignTAB][tab[lignTAB].length - 1][1],
@@ -363,7 +364,6 @@ export default {
 };
 </script>
 <style scoped>
-
 table {
   border-collapse: collapse;
   background-color: #ffffff;

@@ -10,15 +10,11 @@
           :key="i"
           :colspan="data.level.length"
           class="font-weight-medium"
-        >
-          {{ data.dim }}
-        </th>
+        >{{ data.dim }}</th>
         <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
         <tr>
-          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">
-            {{ level }}
-          </th>
+          <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level }}</th>
         </tr>
       </thead>
       <!-- add body table -->
@@ -85,9 +81,7 @@
               <v-card-title class="headline">Attention !</v-card-title>
               <v-card-text>
                 <p>Un champs de la dernière ligne n'est pas vide.</p>
-                <p class="font-weight-bold">
-                  Êtes vous sûr de vouloir supprimer la ligne?
-                </p>
+                <p class="font-weight-bold">Êtes vous sûr de vouloir supprimer la ligne?</p>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -99,11 +93,8 @@
                     delLign();
                     insertTab();
                   "
-                  >Suprimer</v-btn
-                >
-                <v-btn color="light-blue darken-1" text @click="dialog = false"
-                  >Annuler</v-btn
-                >
+                >Suprimer</v-btn>
+                <v-btn color="light-blue darken-1" text @click="dialog = false">Annuler</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -169,6 +160,10 @@ export default {
           while (sting_val[sting_val.length - 1] == " ") {
             sting_val = sting_val.slice(0, -1);
           }
+          while (sting_val[0] == " ") {
+            sting_val = sting_val.slice(1, sting_val.length);
+          }
+
           lign_value.push(sting_val);
         }
         this.arrayOfValues.push(lign_value);
