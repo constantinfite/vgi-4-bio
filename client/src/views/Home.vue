@@ -66,7 +66,22 @@
                   class="d-flex space-between"
                   flat
                   color="rgb(243, 243, 243)"
-                >
+                  ><div
+                    class="d-flex flex-column align-content-center justify-center flex-wrap"
+                  >
+                    <v-icon
+                      v-if="i > 0"
+                      class="mx-1"
+                      @click="upDim(tablesData, i)"
+                      >mdi-arrow-up</v-icon
+                    >
+                    <v-icon
+                      v-if="i != tablesData.length - 1"
+                      class="mx-1"
+                      @click="downDim(tablesData, i)"
+                      >mdi-arrow-down</v-icon
+                    >
+                  </div>
                   <h1>Dimension {{ i + 1 }}</h1>
                   <v-spacer />
 
@@ -306,6 +321,16 @@ export default {
       var element = tableData[indexDim].level[indexLevel];
       tableData[indexDim].level.splice(indexLevel, 1);
       tableData[indexDim].level.splice(indexLevel + 1, 0, element);
+    },
+    upDim(tableData, indexDim) {
+      var element = tableData[indexDim];
+      tableData.splice(indexDim, 1);
+      tableData.splice(indexDim - 1, 0, element);
+    },
+    downDim(tableData, indexDim) {
+      var element = tableData[indexDim];
+      tableData.splice(indexDim, 1);
+      tableData.splice(indexDim + 1, 0, element);
     }
   },
   computed: {
