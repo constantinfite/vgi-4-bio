@@ -1,120 +1,89 @@
 {
   "Tables": [
     {
-      "titre": "DICO ESPECES CULTIVEES",
+      "titre": "Espèce Cultivée",
       "champs": [
-        "Especes cultivées Libellé",
-        "Sous groupe Libellé"
+	      "Genre",
+	      "Espèce",
+	      "Famille",
+	      "Nombre"
       ]
     },
     {
-      "titre": "DICO ESPECE SEMEE",
+      "titre": "Espèce Semée",
       "champs": [
-        "Especes semées Libellé"
+	      "Nom",
+	      "Famille",
+	      "Nombre
+	      
       ]
     },
     {
-      "titre": "DICO PARCELLES",
+      "titre": "Espèce Observée",
       "champs": [
-        "Type parcelle Libellé",
-        "Description Parcelle"
+	      "Espèce",
+	      "Genre",
+	      "Famille",
+	      "Ordre",
+	      "Classe",
+	      "Embranchement",
+	      "Règne"
       ]
     },
     {
-      "titre": "DICO SITE OAB DESCRIPTION",
+      "titre": "Parcelle",
       "champs": [
-        "Description site OAB",
-        "Groupe"
+	      "Type",
+	      "Numéro",
+	      "Condition",
+	      "Date Parcelle",
+	      "Date Semis",
+	      "Date Plantation",
+	      "Paysage",
+	      "Inter-Culture",
+	      "Inter-rang",
+	      "Travail Sol"
       ]
     },
     {
-      "titre": "DICO TYPE TRAITEMENT",
+      "titre": "Traitement",
       "champs": [
-        "NOM TRAITEMENT",
-        "TYPE TRAITEMENT"
+	      "Nom Produit",
+	      "Type","Quantité (L/ha)",
+	      "Nombre Passage",
+	      "Enplein",
+	      "Frequence"
       ]
     },
     {
-      "titre": "Details parcelle",
+      "titre": "Localisation",
       "champs": [
-        "Numero departement",
-        "Departement",
-        "Region"
+	      "Région",
+	      "Département",
+	      "Ville"
       ]
     },
     {
       "titre": "Observations",
       "champs": [
-        "Tempéarature",
-        "Date",
-        "Fleurs Bordure",
-        "Culture en place",
-        "Date Pluie",
-        "Date Gelée",
-        "Sky Cover Libellé",
-        "Wind Libellé",
-        "Rain Libellé",
-        "Humidité Libellé",
-        "GroupName",
-        "Abundance",
-        "AB_Adultes_VDT"
+	      "Date",
+	      "Température (°C)",
+	      "Fleurs Bordure ()",
+	      "Culture en place",
+	      "Date Pluie",
+	      "Date Gelée",
+	      "Nuages",
+	      "Vent",
+	      "Pluie",
+	      "Humidité",
+	      "Abondance espèce"
       ]
     },
     {
-      "titre": "Parcelles description",
+      "titre": "Planning",
       "champs": [
-        "Date Année Parcelle",
-        "Paysage Intensif",
-        "EC_CL",
-        "InterCulture",
-        "Annee Plantation",
-        "PrairieTemporaire",
-        "Age Prairie",
-        "Trvail Sol",
-        "Date Semis",
-        "Interrang",
-        "Annee Conversion"
-      ]
-    },
-    {
-      "titre": "PLANNING",
-      "champs": [
-        "Begin",
-        "End",
-        "Libellé",
-        "Période",
-        "Date Estimée"
-      ]
-    },
-    {
-      "titre": "Sites OAB",
-      "champs": [
-        "Texture Sol",
-        "Couleur Sol",
-        "PH Sol",
-        "Distance Arbre"
-      ]
-    },
-    {
-      "titre": "Survey",
-      "champs": [
-        "Frequence",
-        "Year",
-        "Grass Height",
-        "SurveyDate",
-        "Start Hour",
-        "End Hour",
-        "Observation Time"
-      ]
-    },
-    {
-      "titre": "Traitement Description",
-      "champs": [
-        "Nombre Passage",
-        "Quantité",
-        "Enplein",
-        "Produit",
-        "Frequence"
+	      "Date de début d'observation",
+	      "Date de fin d'observation"
       ]
     }
   ]
