@@ -9,7 +9,7 @@
           >
         </h1>
         <p class="title-sub-heading">
-          Ce site a pour but de récupérer les données que vous voulez voir
+          Ce site vous permet de proposer un modèle pour vos données  
         </p>
       </div>
     </v-container>
@@ -31,16 +31,17 @@ export default {};
 }
 .title {
   position: absolute;
-  top: 20rem;
+  top: 12rem;
   color: #fff;
   text-align: left;
 }
 
 .title-heading {
-  font-size: 30px;
+  margin-bottom: 20px;
+  font-size: 40px;
 }
 .title-sub-heading {
-  font-size: 20px;
+  font-size: 30px;
 }
 .title-heading span {
 }

@@ -259,6 +259,7 @@ export default {
         level: [{ name: "", modifyLevel: true }],
         values: [[]]
       });
+      this.addLevel();
     },
     deleteDim(index) {
       this.tablesData.splice(index, 1);
