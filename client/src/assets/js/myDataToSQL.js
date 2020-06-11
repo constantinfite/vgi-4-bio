@@ -28,7 +28,7 @@ export default function myDataToSQL(
         .replace(/[^a-zA-Z0-9]/g, "_")}_ID SERIAL,\n`;
 
       for (var j = 0; j < datas[i].level.length; j++) {
-        Tables += `\t${datas[i].level[j]
+        Tables += `\t${datas[i].level[j].name
           .toUpperCase()
           .replace(/[^a-zA-Z0-9]/g, "_")} TEXT,\n`;
       }
