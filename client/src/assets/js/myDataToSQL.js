@@ -28,7 +28,7 @@ export default function myDataToSQL(
         .replace(/[^a-zA-Z0-9]/g, "_")}_ID SERIAL,\n`;
 
       for (var j = 0; j < datas[i].level.length; j++) {
-        Tables += `\t${datas[i].level[j]
+        Tables += `\t${datas[i].level[j].name
           .toUpperCase()
           .replace(/[^a-zA-Z0-9]/g, "_")} TEXT,\n`;
       }
@@ -146,7 +146,7 @@ export default function myDataToSQL(
       // display in the console the responce of the fetch
       .then((response) => console.log(response))
       // if we have an error with the fetch it display it
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(
           "Il y a eu un problème avec l'opération fetch: " + error.message
         );
