@@ -146,7 +146,7 @@ export default function myDataToSQL(
       // display in the console the responce of the fetch
       .then((response) => console.log(response))
       // if we have an error with the fetch it display it
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(
           "Il y a eu un problème avec l'opération fetch: " + error.message
         );
