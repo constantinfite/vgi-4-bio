@@ -1,8 +1,6 @@
-version: '3'
-
+version: "3"
 
 services:
-
   server:
     build: ./back
     expose:
@@ -20,7 +18,7 @@ services:
       - 8080
       - 4000
     ports:
-      - 8080:8080
+      - 80:8080
     volumes:
       - ./Choix.json:/src/Choix.json
     links:

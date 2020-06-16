@@ -1,10 +1,10 @@
 .DS_Store
 client/node_modules
+back/node_modules
 node_modules
 /dist
 
-/uploads/XML/
-/uploads/SQL/
+/back/uploads/*
 
 # local env files
 .env.local
