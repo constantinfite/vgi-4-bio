@@ -37,3 +37,16 @@ On Windows:
 
 In order to run this website, you need to install the software Docker:
 https://docs.docker.com/engine/install/
+
+
+----------------------------------------------------------------------------
+
+Without docker
+
+cd back
+npm install
+npm run back
+
+cd client
+npm install
+npm run serve
