@@ -21,11 +21,13 @@ export default function myDataToXML(
     // the for loop allow the parcour of value in order to complete the var file
     for (var i = 0; i < datas.length; i++) {
       file += `\t\t\t<Dimension name="${datas[i].dim}" foreignKey="${datas[i].dim}_id">\n`;
+
       file += `\t\t\t\t<Hierarchy hasAll="true" primaryKey="${datas[i].dim}_id">\n`;
+
       file += `\t\t\t\t\t<Table name="${datas[i].dim}" />\n`;
 
       for (var j = 0; j < datas[i].level.length; j++) {
-        file += `\t\t\t\t\t\t<Level name="${datas[i].level[j]}" column="${datas[i].level[j]}" uniqueMembers="false" />\n`;
+        file += `\t\t\t\t\t\t<Level name="${datas[i].level[j].name}" column="${datas[i].level[j].name}" uniqueMembers="false" />\n`;
       }
 
       file += `\t\t\t\t</Hierarchy>\n`;
