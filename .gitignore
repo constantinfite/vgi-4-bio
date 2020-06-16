@@ -4,8 +4,6 @@ back/node_modules
 node_modules
 /dist
 
-/back/uploads/*
-
 # local env files
 .env.local
 .env.*.local
