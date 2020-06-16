@@ -2,7 +2,7 @@
   <v-footer app absolute class="font-weight-medium">
     <v-col class="text-center" cols="12">
       {{ new Date().getFullYear() }} —
-      <strong>VGI4Bio Copyright</strong>
+      <strong>https://github.com/constantinfite/vgi-4-bio</strong>
     </v-col>
   </v-footer>
 </template>

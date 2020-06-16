@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      typeHierarchy: false
+      typeHierarchy: true
     };
   },
   computed: {
