@@ -60,18 +60,18 @@
 export default {
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
+      type: Array
     },
     arrayOfValues: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
-      typeHierarchy: true,
+      typeHierarchy: true
     };
   },
   computed: {
@@ -197,7 +197,7 @@ export default {
       }
 
       return arr;
-    },
+    }
   },
   methods: {
     dinamicTab: function(withDelVal = true) {
@@ -263,7 +263,7 @@ export default {
             rowSpan: 0,
             colOFdim: 0,
             lign_eff: 0,
-            nb_lign_eff: 0,
+            nb_lign_eff: 0
           });
         }
         hierarchyTab.push(lignFT);
@@ -327,7 +327,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             } else if (
               NoCH &&
@@ -339,7 +339,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             } else if (
               NoSFH &&
@@ -353,7 +353,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             } else if (
               NoSFH &&
@@ -366,7 +366,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             } else if (
               MtMFH &&
@@ -378,7 +378,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             } else if (hierarchyTab[lignTAB][indexdim].value == "") {
               hierarchyTab[lignTAB].splice(indexdim, 1, {
@@ -386,7 +386,7 @@ export default {
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
-                nb_lign_eff: nb_lgn_eff,
+                nb_lign_eff: nb_lgn_eff
               });
             }
           }
@@ -420,8 +420,8 @@ export default {
         dinamicWthHierarc = this.dinamicTab();
       }
       return dinamicWthHierarc;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

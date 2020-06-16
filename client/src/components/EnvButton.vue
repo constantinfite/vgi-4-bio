@@ -88,28 +88,28 @@ import myDataToSQL from "@/assets/js/myDataToSQL.js";
 export default {
   components: {
     TablePopUP,
-    TablePopUPDinamic,
+    TablePopUPDinamic
   },
   props: {
     mesure: {
-      type: String,
+      type: String
     },
     datas: {
-      type: Array,
+      type: Array
     },
     arrayOfValues: {
-      type: Array,
+      type: Array
     },
     name_firstname: {
-      type: String,
-    },
+      type: String
+    }
   },
   data() {
     return {
       dialog: false,
       dynamic: false,
       HierarchyTab: [],
-      SortedArray: [],
+      SortedArray: []
     };
   },
   methods: {
@@ -151,7 +151,7 @@ export default {
         }
       }
       return this.arrayOfValues;
-    },
-  },
+    }
+  }
 };
 </script>
