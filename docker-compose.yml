@@ -1,0 +1,28 @@
+version: '3'
+
+
+services:
+
+  server:
+    build: ./back
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    volumes:
+      - ./SQL:/uploads/SQL
+      - ./XML:/uploads/XML
+    command: npm run back
+
+  client:
+    build: ./client
+    expose:
+      - 8080
+      - 4000
+    ports:
+      - 8080:8080
+    volumes:
+      - ./Choix.json:/src/Choix.json
+    links:
+      - server
+    command: npm run serve

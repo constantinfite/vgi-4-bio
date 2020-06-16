@@ -1,0 +1,90 @@
+{
+  "Tables": [
+    {
+      "titre": "Espèce Cultivée",
+      "champs": [
+	      "Genre",
+	      "Espèce",
+	      "Famille",
+	      "Nombre"
+      ]
+    },
+    {
+      "titre": "Espèce Semée",
+      "champs": [
+	      "Nom",
+	      "Famille",
+	      "Nombre"
+	      
+      ]
+    },
+    {
+      "titre": "Espèce Observée",
+      "champs": [
+	      "Espèce",
+	      "Genre",
+	      "Famille",
+	      "Ordre",
+	      "Classe",
+	      "Embranchement",
+	      "Règne"
+      ]
+    },
+    {
+      "titre": "Parcelle",
+      "champs": [
+	      "Type",
+	      "Numéro",
+	      "Condition",
+	      "Date Parcelle",
+	      "Date Semis",
+	      "Date Plantation",
+	      "Paysage",
+	      "Inter-Culture",
+	      "Inter-rang",
+	      "Travail Sol"
+      ]
+    },
+    {
+      "titre": "Traitement",
+      "champs": [
+	      "Nom Produit",
+	      "Type","Quantité (L/ha)",
+	      "Nombre Passage",
+	      "Enplein",
+	      "Frequence"
+      ]
+    },
+    {
+      "titre": "Localisation",
+      "champs": [
+	      "Région",
+	      "Département",
+	      "Ville"
+      ]
+    },
+    {
+      "titre": "Observations",
+      "champs": [
+	      "Date",
+	      "Température (°C)",
+	      "Fleurs Bordure ()",
+	      "Culture en place",
+	      "Date Pluie",
+	      "Date Gelée",
+	      "Nuages",
+	      "Vent",
+	      "Pluie",
+	      "Humidité",
+	      "Abondance espèce"
+      ]
+    },
+    {
+      "titre": "Planning",
+      "champs": [
+	      "Date de début d'observation",
+	      "Date de fin d'observation"
+      ]
+    }
+  ]
+}
