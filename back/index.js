@@ -29,6 +29,13 @@ app.post("/api/sql", upload.single("sql"), function (req, res) {
   // do stuff with file
 });
 
+
+if (process.env.NODE_ENV === "production") {
+  //static folder
+  app.use(express.static(__dirname + "/public/"));
+  //HANDLE SPA
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + "/public/index.html"));
+}
 /*app.post("/form", function (req, res) {
 
 
