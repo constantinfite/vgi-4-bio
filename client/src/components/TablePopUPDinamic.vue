@@ -9,7 +9,9 @@
             :key="data"
             :colspan="data.level.length"
             class="font-weight-medium"
-          >{{ data.dim }}</th>
+          >
+            {{ data.dim }}
+          </th>
           <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
           <th
@@ -17,10 +19,18 @@
             :key="dim"
             rowspan="2"
             class="font-weight-medium"
-          >{{ dim }}</th>
+          >
+            {{ dim }}
+          </th>
 
           <tr>
-            <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level.name }}</th>
+            <th
+              class="font-weight-medium"
+              v-for="(level, i) in levels"
+              :key="i"
+            >
+              {{ level.name }}
+            </th>
           </tr>
         </thead>
 
@@ -34,7 +44,9 @@
               :key="value"
               :rowspan="value.rowSpan"
               class="text-center"
-            >{{ value.value }}</td>
+            >
+              {{ value.value }}
+            </td>
           </tr>
         </tbody>
       </table>

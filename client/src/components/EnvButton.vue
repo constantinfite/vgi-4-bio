@@ -11,7 +11,12 @@
       <v-icon right dark>mdi-send</v-icon>
     </v-btn>
 
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <v-card>
         <v-toolbar flat color="#1D1D1D" align="center" single-line="true">
           <v-btn icon dark @click="dialog = false">
@@ -19,7 +24,11 @@
           </v-btn>
           <v-spacer></v-spacer>
 
-          <v-switch dark v-model="dynamic" label="Table croisée dynamique"></v-switch>
+          <v-switch
+            dark
+            v-model="dynamic"
+            label="Table croisée dynamique"
+          ></v-switch>
         </v-toolbar>
         <v-col class="board-position ml-8">
           <v-row justify="center" class="main-row" v-if="!this.dynamic">
