@@ -11,12 +11,7 @@
       <v-icon right dark>mdi-send</v-icon>
     </v-btn>
 
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
         <v-toolbar flat color="#1D1D1D" align="center" single-line="true">
           <v-btn icon dark @click="dialog = false">
@@ -24,7 +19,7 @@
           </v-btn>
           <v-spacer></v-spacer>
 
-          <v-switch dark v-model="dynamic" label="Dynamic Table"></v-switch>
+          <v-switch dark v-model="dynamic" label="Table croisée dynamique"></v-switch>
         </v-toolbar>
         <v-col class="board-position ml-8">
           <v-row justify="center" class="main-row" v-if="!this.dynamic">
@@ -40,6 +35,7 @@
               :mesure="this.mesure"
               :arrayOfValues="this.correctArray()"
               @updateHierarchyTab="updateHierarchyTab"
+              @updateArrayOfValues="updateArrayOfValues"
             ></TablePopUPDinamic>
           </v-row>
           <v-row justify="center" class="main-row">
@@ -51,14 +47,18 @@
                 toSQL();
                 dialog = false;
               "
-              >Envoyer<v-icon right dark>mdi-send</v-icon></v-btn
             >
+              Envoyer
+              <v-icon right dark>mdi-send</v-icon>
+            </v-btn>
             <v-btn
               class="ma-4 white--text font-weight-bold"
               color="#c61469"
               @click="dialog = false"
-              >Annuler <v-icon right>mdi-close</v-icon></v-btn
             >
+              Annuler
+              <v-icon right>mdi-close</v-icon>
+            </v-btn>
           </v-row>
         </v-col>
       </v-card>
@@ -95,7 +95,8 @@ export default {
     return {
       dialog: false,
       dynamic: false,
-      HierarchyTab: []
+      HierarchyTab: [],
+      SortedArray: []
     };
   },
   methods: {
@@ -103,9 +104,14 @@ export default {
       //console.log(e);
       this.HierarchyTab = e;
     },
+    updateArrayOfValues(e) {
+      //console.log(e);
+      this.SortedArray = e;
+    },
     toXML: function() {
       this.dynamic = true;
       console.log("XML ok");
+
       myDataToXML(
         this.datas,
         this.mesure,
@@ -116,10 +122,11 @@ export default {
     toSQL: function() {
       this.dynamic = true;
       console.log("sql ok");
+
       myDataToSQL(
         this.datas,
         this.mesure,
-        this.arrayOfValues,
+        this.SortedArray,
         this.name_firstname,
         this.HierarchyTab
       );

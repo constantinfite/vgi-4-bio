@@ -1,4 +1,4 @@
-<template>
+<template lg="10" xl="10">
   <div justify="center">
     <v-row>
       <table>
@@ -9,9 +9,7 @@
             :key="data"
             :colspan="data.level.length"
             class="font-weight-medium"
-          >
-            {{ data.dim }}
-          </th>
+          >{{ data.dim }}</th>
           <th class="font-weight-medium" rowspan="2">{{ this.mesure }}</th>
 
           <th
@@ -19,18 +17,10 @@
             :key="dim"
             rowspan="2"
             class="font-weight-medium"
-          >
-            {{ dim }}
-          </th>
+          >{{ dim }}</th>
 
           <tr>
-            <th
-              class="font-weight-medium"
-              v-for="(level, i) in levels"
-              :key="i"
-            >
-              {{ level.name }}
-            </th>
+            <th class="font-weight-medium" v-for="(level, i) in levels" :key="i">{{ level.name }}</th>
           </tr>
         </thead>
 
@@ -42,17 +32,15 @@
             <td
               v-for="value in values"
               :key="value"
-              :rowspan="value[1]"
+              :rowspan="value.rowSpan"
               class="text-center"
-            >
-              {{ value[0] }}
-            </td>
+            >{{ value.value }}</td>
           </tr>
         </tbody>
       </table>
     </v-row>
     <v-row>
-      <v-switch v-model="typeHierarchy" label="Type of hierarchy"> </v-switch>
+      <v-switch v-model="typeHierarchy" label="Type de hierarchies"></v-switch>
     </v-row>
   </div>
 </template>
@@ -120,8 +108,10 @@ export default {
             for (var j = 0; j < arr.length; j++) {
               for (var k = j + 1; k < arr.length; k++) {
                 if (
-                  arr[j][col + i] == arr[k][col + i] &&
-                  arr[j][arr[0].length - 1] == arr[k][arr[0].length - 1]
+                  arr[j][col + i].toLowerCase() ==
+                    arr[k][col + i].toLowerCase() &&
+                  arr[j][arr[0].length - 1].toLowerCase() ==
+                    arr[k][arr[0].length - 1].toLowerCase()
                 ) {
                   if (i - n > 0) {
                     if (
@@ -204,40 +194,39 @@ export default {
       for (var lignSA = 0; lignSA < this.sortedArray.length; lignSA++) {
         var lignArr = [];
         for (var colSA = 0; colSA < this.sortedArray[lignSA].length; colSA++) {
-          lignArr.push([this.sortedArray[lignSA][colSA], 0]);
+          lignArr.push({ value: this.sortedArray[lignSA][colSA], rowSpan: 0 });
         }
         vueTab.push(lignArr);
       }
 
       for (var colVT = 0; colVT < vueTab[0].length; colVT++) {
         for (var lignVT = 0; lignVT < vueTab.length; ) {
-          const valTest = vueTab[lignVT][colVT][0];
+          const valTest = vueTab[lignVT][colVT].value;
           var cmpRowSpan = 1;
           var indexSup = 1;
           while (
             lignVT + indexSup < vueTab.length &&
-            vueTab[lignVT + indexSup][colVT][0] == valTest &&
-            vueTab[lignVT + indexSup][vueTab[0].length - 1][0] ==
-              vueTab[lignVT][vueTab[0].length - 1][0]
+            vueTab[lignVT + indexSup][colVT].value == valTest &&
+            vueTab[lignVT + indexSup][vueTab[0].length - 1].value ==
+              vueTab[lignVT][vueTab[0].length - 1].value
           ) {
             cmpRowSpan++;
             indexSup++;
           }
-          vueTab[lignVT][colVT].splice(1, 1, cmpRowSpan);
+          vueTab[lignVT][colVT].rowSpan = cmpRowSpan;
           lignVT += indexSup;
         }
       }
       if (withDelVal) {
         for (var lign = 0; lign < vueTab.length; lign++) {
           for (var col = 0; col < vueTab[lign].length; col++) {
-            if (vueTab[lign][col][1] == 0) {
+            if (vueTab[lign][col].rowSpan == 0) {
               vueTab[lign].splice(col, 1);
               col--;
             }
           }
         }
       }
-      //console.log(vueTab);
       return vueTab;
     },
     dimHieTab: function() {
@@ -257,7 +246,13 @@ export default {
       for (var nbLign = 0; nbLign < tab.length; nbLign++) {
         var lignFT = [];
         for (var colFT = 0; colFT < this.datas.length; colFT++) {
-          lignFT.push(["", 0, 0]);
+          lignFT.push({
+            value: "",
+            rowSpan: 0,
+            colOFdim: 0,
+            lign_eff: 0,
+            nb_lign_eff: 0
+          });
         }
         hierarchyTab.push(lignFT);
       }
@@ -269,66 +264,118 @@ export default {
             var NoCH = false;
             var NoSFH = false;
             var MtMFH = false;
+            var lgn_eff = -1;
+            var nb_lgn_eff = -1;
 
-            var index = lignTAB + tab[lignTAB][tab[lignTAB].length - 1][1];
-            //index = index < tab.length ? index : tab.length;
+            var index = lignTAB + tab[lignTAB][tab[lignTAB].length - 1].rowSpan;
+
             for (var lign1 = lignTAB; lign1 < index; lign1++) {
               if (
-                tab[lign1][this.datas[indexdim].level.length - 1 + endLev][0] ==
-                ""
+                tab[lign1][this.datas[indexdim].level.length - 1 + endLev]
+                  .value == ""
               ) {
                 NoOH = true;
+                lgn_eff = lign1;
+                nb_lgn_eff = tab[lign1][col + endLev].rowSpan;
               }
-              if (tab[lign1][col + endLev][0] == "") {
+              if (tab[lign1][col + endLev].value == "") {
                 NoCH = true;
+                lgn_eff = lign1;
+                nb_lgn_eff = tab[lign1][col + endLev].rowSpan;
               }
               if (col > 0) {
                 if (
-                  tab[lign1][col + endLev][1] != 1 &&
-                  tab[lign1][col + endLev - 1][1] != tab[lign1][col + endLev][1]
+                  tab[lign1][col + endLev].rowSpan > 1 &&
+                  tab[lign1][col + endLev - 1].rowSpan <
+                    tab[lign1][col + endLev].rowSpan
                 ) {
                   NoSFH = true;
+                  lgn_eff = lign1;
+                  nb_lgn_eff = tab[lign1][col + endLev].rowSpan;
                 }
               }
               if (
-                col == 0 &&
-                tab[lign1][col + endLev][1] != 1 &&
-                tab[lign1][col + endLev + 1][1] != tab[lign1][col + endLev][1]
+                col < this.datas[indexdim].level.length - 1 &&
+                tab[lign1][col + endLev].rowSpan > 1 &&
+                tab[lign1][col + endLev + 1].rowSpan <
+                  tab[lign1][col + endLev].rowSpan
               ) {
                 MtMFH = true;
+                lgn_eff = lign1;
+                nb_lgn_eff = tab[lign1][col + endLev].rowSpan;
               }
             }
-
-            if (NoOH) {
-              hierarchyTab[lignTAB].splice(indexdim, 1, [
-                "Non-Onto",
-                tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev
-              ]);
-            } else if (NoCH) {
-              hierarchyTab[lignTAB].splice(indexdim, 1, [
-                "Non-Covering",
-                tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev
-              ]);
-            } else if (NoSFH) {
-              hierarchyTab[lignTAB].splice(indexdim, 1, [
-                "Non-strick Fact",
-                tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev
-              ]);
-            } else if (MtMFH) {
-              hierarchyTab[lignTAB].splice(indexdim, 1, [
-                "Many-to-Many Fact",
-                tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev
-              ]);
-            } else if (hierarchyTab[lignTAB][indexdim][0] == "") {
-              hierarchyTab[lignTAB].splice(indexdim, 1, [
-                "Ordinary",
-                tab[lignTAB][tab[lignTAB].length - 1][1],
-                col + endLev
-              ]);
+            if (
+              NoOH &&
+              (hierarchyTab[lignTAB][indexdim].value == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim].value == "")
+            ) {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Non-Onto",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
+            } else if (
+              NoCH &&
+              (hierarchyTab[lignTAB][indexdim].value == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim].value == "")
+            ) {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Non-Covering",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
+            } else if (
+              NoSFH &&
+              MtMFH &&
+              col > 0 &&
+              (hierarchyTab[lignTAB][indexdim].value == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim].value == "")
+            ) {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Non-strick & Many-to-Many Fact",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
+            } else if (
+              NoSFH &&
+              col > 0 &&
+              (hierarchyTab[lignTAB][indexdim].value == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim].value == "")
+            ) {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Non-strick Fact",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
+            } else if (
+              MtMFH &&
+              (hierarchyTab[lignTAB][indexdim].value == "Ordinary" ||
+                hierarchyTab[lignTAB][indexdim].value == "")
+            ) {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Many-to-Many Fact",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
+            } else if (hierarchyTab[lignTAB][indexdim].value == "") {
+              hierarchyTab[lignTAB].splice(indexdim, 1, {
+                value: "Ordinary",
+                rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
+                colOFdim: col,
+                lign_eff: lgn_eff,
+                nb_lign_eff: nb_lgn_eff
+              });
             }
           }
         }
@@ -337,7 +384,7 @@ export default {
 
       for (var i = 0; i < hierarchyTab.length; i++) {
         for (var j = 0; j < hierarchyTab[i].length; j++) {
-          if (hierarchyTab[i][j][1] == 0) {
+          if (hierarchyTab[i][j].rowSpan == 0) {
             hierarchyTab[i].splice(j, 1);
             j--;
           }
@@ -348,8 +395,11 @@ export default {
     },
     dinamicWthHierarc: function() {
       var dinamicWthHierarc = [];
+
+      this.$emit("updateHierarchyTab", this.hierarchy());
+      this.$emit("updateArrayOfValues", this.sortedArray);
+
       var tab = this.hierarchy();
-      this.$emit("updateHierarchyTab", tab);
       if (this.typeHierarchy) {
         for (var i = 0; i < this.dinamicTab().length; i++) {
           dinamicWthHierarc.push(this.dinamicTab()[i].concat(tab[i]));
@@ -363,7 +413,6 @@ export default {
 };
 </script>
 <style scoped>
-
 table {
   border-collapse: collapse;
   background-color: #ffffff;

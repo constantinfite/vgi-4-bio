@@ -29,16 +29,26 @@
                     <v-text-field v-model="name" label="Nom"></v-text-field>
                   </v-col>
                   <v-col cols="11" md="10" lg="6" xl="6">
-                    <v-text-field v-model="firstname" label="Prénom"></v-text-field>
+                    <v-text-field
+                      v-model="firstname"
+                      label="Prénom"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
 
-                <v-text-field v-model="mesure" label="Nom de la mesure"></v-text-field>
+                <v-text-field
+                  v-model="mesure"
+                  label="Nom de la mesure"
+                ></v-text-field>
               </v-col>
             </v-row>
             <!-- Add dimension -->
             <div justify="center" align="center" class="mb-5">
-              <v-btn class="mr-5 white--text font-weight-bold" @click="addNewDim" color="#95C35A">
+              <v-btn
+                class="mr-5 white--text font-weight-bold"
+                @click="addNewDim"
+                color="#95C35A"
+              >
                 Ajouter une dimension
                 <v-icon right dark>mdi-plus</v-icon>
               </v-btn>
@@ -55,19 +65,33 @@
                 xl="12"
                 class="card ma-3"
               >
-                <v-card class="d-flex space-between" flat color="rgb(243, 243, 243)">
-                  <div class="d-flex flex-column align-content-center justify-center flex-wrap">
-                    <v-icon v-if="i > 0" class="mx-1" @click="upDim(tablesData, i)">mdi-arrow-up</v-icon>
+                <v-card
+                  class="d-flex space-between"
+                  flat
+                  color="rgb(243, 243, 243)"
+                >
+                  <div
+                    class="d-flex flex-column align-content-center justify-center flex-wrap"
+                  >
+                    <v-icon
+                      v-if="i > 0"
+                      class="mx-1"
+                      @click="upDim(tablesData, i)"
+                      >mdi-arrow-up</v-icon
+                    >
                     <v-icon
                       v-if="i != tablesData.length - 1"
                       class="mx-1"
                       @click="downDim(tablesData, i)"
-                    >mdi-arrow-down</v-icon>
+                      >mdi-arrow-down</v-icon
+                    >
                   </div>
                   <h1>Dimension {{ i + 1 }}</h1>
                   <v-spacer />
 
-                  <v-icon large @click="deleteDim(i)">mdi-trash-can-outline</v-icon>
+                  <v-icon large @click="deleteDim(i)"
+                    >mdi-trash-can-outline</v-icon
+                  >
                 </v-card>
                 <v-col xl="12" lg="12">
                   <v-text-field
@@ -82,7 +106,11 @@
                     type="text"
                     @click:append-outer="editDimension(i)"
                   ></v-text-field>
-                  <v-card class="d-flex space-between" color="rgb(243, 243, 243)" flat>
+                  <v-card
+                    class="d-flex space-between"
+                    color="rgb(243, 243, 243)"
+                    flat
+                  >
                     <v-select
                       v-if="table.modifyDim"
                       :items="computedDims"
@@ -90,7 +118,12 @@
                       :value="table.dim"
                       label="Liste des dimensions"
                     ></v-select>
-                    <v-icon v-if="table.modifyDim" class="mx-3" @click="editDimension(i)">mdi-pencil</v-icon>
+                    <v-icon
+                      v-if="table.modifyDim"
+                      class="mx-3"
+                      @click="editDimension(i)"
+                      >mdi-pencil</v-icon
+                    >
                   </v-card>
                 </v-col>
 
@@ -106,17 +139,21 @@
                     :key="j"
                   >
                     <v-card elevation="1" class="d-flex justify-space-between">
-                      <div class="d-flex flex-column align-content-center justify-center flex-wrap">
+                      <div
+                        class="d-flex flex-column align-content-center justify-center flex-wrap"
+                      >
                         <v-icon
                           v-if="j > 0"
                           class="mx-1"
                           @click="upLevel(tablesData, i, j)"
-                        >mdi-arrow-up</v-icon>
+                          >mdi-arrow-up</v-icon
+                        >
                         <v-icon
                           v-if="j != tablesData[i].level.length - 1"
                           class="mx-1"
                           @click="downLevel(tablesData, i, j)"
-                        >mdi-arrow-down</v-icon>
+                          >mdi-arrow-down</v-icon
+                        >
                       </div>
                       <v-text-field
                         v-if="!level.modifyLevel"
@@ -143,16 +180,24 @@
                       <div
                         class="d-flex flex-column align-content-center justify-center flex-wrap mx-2"
                       >
-                        <v-icon class="mb-2" @click="deleteLevel(i, j)">mdi-trash-can-outline</v-icon>
+                        <v-icon class="mb-2" @click="deleteLevel(i, j)"
+                          >mdi-trash-can-outline</v-icon
+                        >
                         <v-icon
                           v-if="level.modifyLevel"
                           @click="editDimensionLevel(i, j)"
-                        >mdi-pencil</v-icon>
+                          >mdi-pencil</v-icon
+                        >
                       </div>
                     </v-card>
                   </v-col>
                   <v-row justify="center">
-                    <v-btn small color="#EE8700" class="ma-2 white--text" @click="addLevel(i)">
+                    <v-btn
+                      small
+                      color="#EE8700"
+                      class="ma-2 white--text"
+                      @click="addLevel(i)"
+                    >
                       Ajouter un niveau
                       <v-icon right dark>mdi-plus</v-icon>
                     </v-btn>
@@ -169,7 +214,7 @@
           xl="8"
           v-if="this.tablesData.length > 0 || this.mesure.length > 0"
         >
-          <v-row justify="center" class="board-position">
+          <v-row justify="center">
             <Board
               :mesure="mesure"
               :datas="tablesData"
