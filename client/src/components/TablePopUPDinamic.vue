@@ -349,7 +349,7 @@ export default {
                 hierarchyTab[lignTAB][indexdim].value == "")
             ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, {
-                value: "Non-strick & Many-to-Many Fact",
+                value: "Non-strict & Many-to-Many Fact",
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
@@ -362,7 +362,7 @@ export default {
                 hierarchyTab[lignTAB][indexdim].value == "")
             ) {
               hierarchyTab[lignTAB].splice(indexdim, 1, {
-                value: "Non-strick Fact",
+                value: "Non-strict Fact",
                 rowSpan: tab[lignTAB][tab[lignTAB].length - 1].rowSpan,
                 colOFdim: col,
                 lign_eff: lgn_eff,
