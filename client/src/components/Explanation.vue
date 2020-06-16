@@ -9,7 +9,7 @@
           >
         </h1>
         <p class="title-sub-heading">
-          Ce site vous permet de proposer un modèle pour vos données  
+          Ce site vous permet de proposer un modèle pour vos données
         </p>
       </div>
     </v-container>
