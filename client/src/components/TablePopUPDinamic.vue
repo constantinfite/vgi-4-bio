@@ -40,7 +40,7 @@
       </table>
     </v-row>
     <v-row>
-      <v-switch v-model="typeHierarchy" label="Type of hierarchy"></v-switch>
+      <v-switch v-model="typeHierarchy" label="Type de hierarchies"></v-switch>
     </v-row>
   </div>
 </template>

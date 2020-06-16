@@ -19,7 +19,7 @@
           </v-btn>
           <v-spacer></v-spacer>
 
-          <v-switch dark v-model="dynamic" label="Dynamic Table"></v-switch>
+          <v-switch dark v-model="dynamic" label="Table croisée dynamique"></v-switch>
         </v-toolbar>
         <v-col class="board-position ml-8">
           <v-row justify="center" class="main-row" v-if="!this.dynamic">

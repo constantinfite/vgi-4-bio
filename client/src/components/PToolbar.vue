@@ -1,15 +1,16 @@
 <template>
   <nav>
     <v-app-bar color="#fff" elevation="1" height="120" app class="app-bar">
-      <v-toolbar-title
-        ><v-img
+      <v-toolbar-title>
+        <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
           src="../assets/logo_VGI4Bio.png"
           transition="scale-transition"
           width="120px"
-      /></v-toolbar-title>
+        />
+      </v-toolbar-title>
 
       <v-spacer />
       <div class="d-none d-md-block">
@@ -20,8 +21,7 @@
           class="black--text bouton-header font-weight-bold"
           text
           @click="$vuetify.goTo(bouton.tag, options)"
-          >{{ bouton.text }}</v-btn
-        >
+        >{{ bouton.text }}</v-btn>
       </div>
       <v-app-bar-nav-icon class="d-md-none ml-8" @click="drawer = !drawer" />
     </v-app-bar>
@@ -50,7 +50,7 @@ export default {
           tag: "#video"
         },
         {
-          text: "Questionnaire",
+          text: "Formulaire",
           tag: "#form"
         }
       ]
